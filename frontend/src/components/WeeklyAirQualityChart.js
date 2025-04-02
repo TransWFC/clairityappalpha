@@ -12,7 +12,7 @@ const WeeklyAirQualityChart = () => {
   useEffect(() => {
     const fetchHistoricalData = async () => {
       try {
-        const response = await fetch("http://10.0.130.21:5000/api/sensors/history?filter=week");
+        const response = await fetch("clairityapp.net/api/sensors/history?filter=week");
         const data = await response.json();
 
         const groupedData = data.reduce((acc, entry) => {

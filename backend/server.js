@@ -27,9 +27,9 @@ app.use(express.json());
 // Rutas
 app.use("/api/auth", authRoutes);
 app.use("/api/sensors", sensorRoutes);
-app.use("/recommendations", recommendationsRoute);
-app.use("/groups", groupsRoute);
-app.use("/users", userRoutes);  // Aquí agregas las rutas de usuarios
+app.use("/api/recommendations", recommendationsRoute);
+app.use("/api/groups", groupsRoute);
+app.use("/api/users", userRoutes);  // Aquí agregas las rutas de usuarios
 
 app._router.stack.forEach((r) => {
   if (r.route && r.route.path) {
