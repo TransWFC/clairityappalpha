@@ -1,14 +1,14 @@
-class Recommendation {
+class recommendation {
     constructor(aqi) {
         this.aqi = aqi;
     }
-    getRecommendations() {
+    getrecommendations() {
         return ["No specific recommendations available."];
     }
 }
 
-class GoodAirQuality extends Recommendation {
-    getRecommendations() {
+class GoodAirQuality extends recommendation {
+    getrecommendations() {
         return [
             "Enjoy outdoor activities.",
             "Keep indoor spaces ventilated.",
@@ -19,8 +19,8 @@ class GoodAirQuality extends Recommendation {
     }
 }
 
-class ModerateAirQuality extends Recommendation {
-    getRecommendations() {
+class ModerateAirQuality extends recommendation {
+    getrecommendations() {
         return [
             "Sensitive groups should limit outdoor activities.",
             "Keep windows closed if needed.",
@@ -31,8 +31,8 @@ class ModerateAirQuality extends Recommendation {
     }
 }
 
-class UnhealthyAirQuality extends Recommendation {
-    getRecommendations() {
+class UnhealthyAirQuality extends recommendation {
+    getrecommendations() {
         return [
             "Avoid outdoor activities.",
             "Use a mask outdoors.",
@@ -44,8 +44,8 @@ class UnhealthyAirQuality extends Recommendation {
     }
 } 
 
-class HazardousAirQuality extends Recommendation {
-    getRecommendations() {
+class HazardousAirQuality extends recommendation {
+    getrecommendations() {
         return [
             "Stay indoors as much as possible.",
             "Use high-quality air filters and masks.",
