@@ -11,7 +11,7 @@ const NavbarComponent = ({ handleLogout }) => {
   const handleLogoutClick = async () => {
     try {
       // Puedes hacer una solicitud al backend para cambiar el estado de la sesión a 'inactive'
-      await fetch("clairityapp.net/api/auth/logout", {
+      await fetch("/api/auth/logout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         // Aquí podrías enviar el token o la información necesaria si es necesario

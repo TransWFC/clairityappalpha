@@ -32,7 +32,7 @@ const DeviceManagement = () => {
   useEffect(() => {
     const fetchSensorData = async () => {
       try {
-        const response = await fetch("clairityapp.net/api/sensors/get");
+        const response = await fetch("/api/sensors/get");
         if (!response.ok) throw new Error("Error en la respuesta del servidor");
         const data = await response.json();
 

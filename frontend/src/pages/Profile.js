@@ -16,7 +16,7 @@ const Profile = () => {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const response = await fetch('clairityapp.net/api/auth/me', {
+                const response = await fetch('/api/auth/me', {
                     headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
                 });
                 const data = await response.json();
@@ -43,7 +43,7 @@ const Profile = () => {
 
     const handleSendVerificationCode = async () => {
         try {
-            const response = await fetch('clairityapp.net/api/auth/send-verification-code-user', {
+            const response = await fetch('/api/auth/send-verification-code-user', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -74,7 +74,7 @@ const Profile = () => {
                 requestBody.verificationCode = verificationCode;
             }
 
-            const response = await fetch('clairityapp.net/api/auth/update', {
+            const response = await fetch('/api/auth/update', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

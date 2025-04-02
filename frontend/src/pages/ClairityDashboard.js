@@ -38,7 +38,7 @@ const ClarityDashboard = () => {
     if (isAuthenticated) {
       const fetchData = async () => {
         try {
-          const sensorRes = await fetch("clairityapp.net/api/sensors/get");
+          const sensorRes = await fetch("/api/sensors/get");
           const sensorData = await sensorRes.json();
           if (sensorData.length > 0) setSensorData(sensorData[0]);
         } catch (error) {

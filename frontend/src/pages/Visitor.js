@@ -23,7 +23,7 @@ const Visitor = () => {
   useEffect(() => {
     const fetchHistoricalData = async () => {
       try {
-        const response = await fetch("clairityapp.net/api/sensors/history");
+        const response = await fetch("/api/sensors/history");
         const data = await response.json();
         setHistoricalData(data);
       } catch (error) {
@@ -34,7 +34,7 @@ const Visitor = () => {
 
     const fetchSensorData = async () => {
       try {
-        const response = await fetch("clairityapp.net/api/sensors/get");
+        const response = await fetch("/api/sensors/get");
         const data = await response.json();
         if (data.length > 0) {
           setSensorData(data[0]);

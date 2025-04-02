@@ -14,7 +14,7 @@ const AirQualityChart = () => {
   useEffect(() => {
     const fetchHistoricalData = async () => {
       try {
-        const response = await fetch(`clairityapp.net/api/sensors/history?filter=${filter}`);
+        const response = await fetch(`/api/sensors/history?filter=${filter}`);
         const data = await response.json();
 
         if (filter === "week") {
