@@ -14,7 +14,7 @@ const AirQualityChart = () => {
   useEffect(() => {
     const fetchHistoricalData = async () => {
       try {
-        const response = await fetch(`${process.env.REACT_APP_BACKEND_API_URL}/api/sensors/history?filter=${filter}`);
+        const response = await fetch(`http://10.0.130.21:5000/api/sensors/history?filter=${filter}`);
         const data = await response.json();
 
         if (filter === "week") {

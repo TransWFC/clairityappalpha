@@ -11,7 +11,7 @@ const NavbarComponent = ({ handleLogout }) => {
   const handleLogoutClick = async () => {
     try {
       // Puedes hacer una solicitud al backend para cambiar el estado de la sesión a 'inactive'
-      await fetch("${process.env.REACT_APP_BACKEND_API_URL}/api/auth/logout", {
+      await fetch("http://10.0.130.21:5000/api/auth/logout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         // Aquí podrías enviar el token o la información necesaria si es necesario

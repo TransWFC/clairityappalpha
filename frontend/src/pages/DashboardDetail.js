@@ -38,7 +38,7 @@ const DashboardDetail = () => {
     useEffect(() => {
         const fetchSensorData = async () => {
             try {
-                const response = await fetch("${process.env.REACT_APP_BACKEND_API_URL}/api/sensors/get");
+                const response = await fetch("http://10.0.130.21:5000/api/sensors/get");
                 const data = await response.json();
                 if (data.length > 0) {
                     setSensorData(data[0]);
@@ -52,7 +52,7 @@ const DashboardDetail = () => {
 
         const fetchHistoricalData = async () => {
             try {
-                const response = await fetch("${process.env.REACT_APP_BACKEND_API_URL}/api/sensors/history");
+                const response = await fetch("http://10.0.130.21:5000/api/sensors/history");
                 const data = await response.json();
                 console.log("Fetched Data:", data); // Debugging
                 setHistoricalData(data);
@@ -64,7 +64,7 @@ const DashboardDetail = () => {
 
         const fetchRecommendations = async (aqi) => {
             try {
-                const response = await fetch(`${process.env.REACT_APP_BACKEND_API_URL}/recommendations?aqi=${aqi}`);
+                const response = await fetch(`http://10.0.130.21:5000/recommendations?aqi=${aqi}`);
                 const data = await response.json();
                 setRecommendations(data.recommendations);
             } catch (error) {
@@ -74,7 +74,7 @@ const DashboardDetail = () => {
 
         const fetchGroups = async (aqi) => {
             try {
-                const response = await fetch(`${process.env.REACT_APP_BACKEND_API_URL}/groups?aqi=${aqi}`);
+                const response = await fetch(`http://10.0.130.21:5000/groups?aqi=${aqi}`);
                 const data = await response.json();
                 setGroups(data.groups);
             } catch (error) {

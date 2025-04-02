@@ -42,7 +42,7 @@ const SignupPage = () => {
     if (!isCodeSent) {
       // Enviar el código de verificación
       try {
-        const response = await fetch("${process.env.REACT_APP_BACKEND_API_URL}/api/auth/send-verification-code", {
+        const response = await fetch("http://10.0.130.21:5000/api/auth/send-verification-code", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email: formData.email })
@@ -66,7 +66,7 @@ const SignupPage = () => {
     } else {
       // Registrar el usuario y verificar el código
       try {
-        const response = await fetch("${process.env.REACT_APP_BACKEND_API_URL}/api/auth/signup", {
+        const response = await fetch("http://10.0.130.21:5000/api/auth/signup", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -95,7 +95,7 @@ const SignupPage = () => {
   const handleResendVerificationCode = async () => {
     if (countdown === 0) {
       try {
-        const response = await fetch("${process.env.REACT_APP_BACKEND_API_URL}/api/auth/send-verification-code", {
+        const response = await fetch("http://10.0.130.21:5000/api/auth/send-verification-code", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email: formData.email })
