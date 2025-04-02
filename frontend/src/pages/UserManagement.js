@@ -25,7 +25,7 @@ const UserManagement = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/users", {
+      const response = await axios.get("${process.env.REACT_APP_BACKEND_API_URL}/users", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setUsers(response.data);
@@ -46,7 +46,7 @@ const UserManagement = () => {
 
   const validateEmail = async (email) => {
     try {
-      const response = await axios.get(`http://localhost:5000/users?email=${email}`, {
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/users?email=${email}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       return response.data.exists;
@@ -65,7 +65,7 @@ const UserManagement = () => {
     }
 
     try {
-      await axios.post("http://localhost:5000/users", newUser, {
+      await axios.post("${process.env.REACT_APP_BACKEND_API_URL}/users", newUser, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setTemporaryMessage("Usuario creado exitosamente. Por favor verifica tu correo electrónico.", "success");
@@ -81,7 +81,7 @@ const UserManagement = () => {
     setIsVerifying(true);
 
     try {
-      const response = await axios.post("http://localhost:5000/users/verify", { email: newUser.email, code: verificationCode }, {
+      const response = await axios.post("${process.env.REACT_APP_BACKEND_API_URL}/users/verify", { email: newUser.email, code: verificationCode }, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (response.data.success) {
@@ -134,7 +134,7 @@ const UserManagement = () => {
     };
 
     try {
-      await axios.put(`http://localhost:5000/users/${selectedUser._id}`, updatedData, {
+      await axios.put(`${process.env.REACT_APP_BACKEND_API_URL}/users/${selectedUser._id}`, updatedData, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setTemporaryMessage("Usuario actualizado correctamente", "success");
@@ -147,7 +147,7 @@ const UserManagement = () => {
 
   const deleteUser = async (userId) => {
     try {
-      await axios.delete(`http://localhost:5000/users/${userId}`, {
+      await axios.delete(`${process.env.REACT_APP_BACKEND_API_URL}/users/${userId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setTemporaryMessage("Usuario eliminado exitosamente", "success");
@@ -159,7 +159,7 @@ const UserManagement = () => {
 
   const deactivateUser = async (userId) => {
     try {
-      await axios.put(`http://localhost:5000/users/${userId}/deactivate`, {}, {
+      await axios.put(`${process.env.REACT_APP_BACKEND_API_URL}/users/${userId}/deactivate`, {}, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setTemporaryMessage("Usuario desactivado correctamente", "success");
@@ -171,7 +171,7 @@ const UserManagement = () => {
 
   const activateUser = async (userId) => {
     try {
-      await axios.put(`http://localhost:5000/users/${userId}/activate`, {}, {
+      await axios.put(`${process.env.REACT_APP_BACKEND_API_URL}/users/${userId}/activate`, {}, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setTemporaryMessage("Usuario activado correctamente", "success");

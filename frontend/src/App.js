@@ -9,6 +9,8 @@ import DashboardDetail from "./pages/DashboardDetail";
 import DeviceManagement from "./pages/DeviceMonitoring";
 import Profile from "./pages/Profile"; // Import Profile page
 
+const REACT_APP_BACKEND_API_URL = process.env.REACT_APP_BACKEND_API_URL;
+
 function App() {
   return (
     <Router>

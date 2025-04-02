@@ -32,7 +32,7 @@ const DeviceManagement = () => {
   useEffect(() => {
     const fetchSensorData = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/sensors/get");
+        const response = await fetch("${process.env.REACT_APP_BACKEND_API_URL}/api/sensors/get");
         if (!response.ok) throw new Error("Error en la respuesta del servidor");
         const data = await response.json();
 
