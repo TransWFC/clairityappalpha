@@ -1,0 +1,155 @@
+/* Estilos Globales */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+h1, h2 {
+    color: #333;
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Botones */
+.btn-create-user {
+    padding: 10px 20px; /* Ajustado el tamaño */
+    font-size: 1rem; /* Ajustado el tamaño de la fuente */
+    font-weight: bold;
+    border-radius: 30px;
+    border: 2px solid #40C8FF !important;
+    background-color: #40C8FF !important;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    text-align: center;
+    letter-spacing: 1px;
+    margin-top: 20px;
+    width: auto; /* Ajustado para que no ocupe todo el ancho */
+    display: inline-block;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-create-user:hover {
+    background-color: white !important;
+    color: #40C8FF !important;
+    opacity: 0.8;
+}
+
+.btn-update, .btn-delete, .btn-activate, .btn-deactivate {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    border-radius: 25px;
+    color: white;
+    transition: all 0.3s ease-in-out;
+    margin-right: 10px;
+    border: 2px solid #40C8FF !important;
+    background-color: #40C8FF !important; /* Color igual al de Crear Usuario */
+}
+
+.btn-update:hover, .btn-delete:hover, .btn-activate:hover, .btn-deactivate:hover {
+    background-color: white !important;
+    color: #40C8FF !important;
+    opacity: 0.8;
+}
+
+.btn-update {
+    background-color: #40C8FF !important; /* Color igual al de Crear Usuario */
+}
+
+.btn-delete {
+    background-color: #40C8FF !important; /* Color igual al de Crear Usuario */
+}
+
+.btn-activate {
+    background-color: #40C8FF !important; /* Color igual al de Crear Usuario */
+}
+
+.btn-deactivate {
+    background-color: #40C8FF !important; /* Color igual al de Crear Usuario */
+}
+
+/* Estilos para el formulario */
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    transition: all 0.3s ease-in-out;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+    border-color: #40C8FF;
+    outline: none;
+}
+
+/* Mensajes de error y éxito */
+.text-error {
+    color: #FF3B30;
+    font-size: 0.9rem;
+    margin-top: 5px;
+}
+
+.text-success {
+    color: #4CAF50;
+    font-size: 0.9rem;
+    margin-top: 5px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+li p {
+    margin: 0;
+    font-size: 1rem;
+    color: #333;
+}
+
+button {
+    font-size: 0.9rem;
+    padding: 8px 16px;
+    margin-right: 5px;
+    border-radius: 25px;
+    transition: all 0.3s ease-in-out;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+/* Flexbox para centrar contenido */
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Estilos para los formularios */
+form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}

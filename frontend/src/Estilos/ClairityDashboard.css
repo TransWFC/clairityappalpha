@@ -1,0 +1,117 @@
+/* Estilos generales */
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+  
+  /* Ajuste del contenedor principal para evitar que la navbar lo cubra */
+  .d-flex.vh-100 {
+    padding-top: 80px !important; /* Ajustado para evitar superposición */
+  }
+  
+  /* Navbar fija en la parte superior */
+  .navbar-fixed {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1050;
+    background-color: white;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Ajuste de los iconos superiores */
+  .d-flex.justify-content-end.gap-3.p-3 {
+    margin-top: -10px; /* Evita que el margen empuje otros elementos */
+  }
+  
+  /* Responsividad: pantallas pequeñas */
+  @media (max-width: 768px) {
+    .d-flex.vh-100 {
+      flex-direction: column;
+      padding-top: 100px !important;
+    }
+  
+    /* Contenedor con padding ajustado */
+    .container {
+      padding: 0 15px;
+    }
+  
+    /* Asegura que las filas se apilen en lugar de estar en una columna */
+    .row.noGutters {
+      flex-direction: column;
+    }
+  
+    .col-md-6 {
+      width: 100%;
+    }
+  
+    /* Ajustes en tarjetas para mejor visualización */
+    .card {
+      margin-bottom: 20px;
+    }
+  
+    /* Asegurar que el mapa se adapta correctamente */
+    .bg-light.p-3.rounded-4.shadow-lg {
+      width: 100%;
+      height: auto;
+    }
+  
+    /* Hacer que la tabla ocupe el 100% del ancho */
+    .table {
+      width: 100% !important;
+      font-size: 14px;
+    }
+  
+    /* Hacer que los botones se adapten mejor */
+    .btn-custom-sidebar {
+      font-size: 14px;
+      padding: 10px 15px;
+    }
+  
+    /* Mejorar la visualización de la sidebar */
+    .sidebar {
+      position: absolute;
+      top: 65px; /* Ajustado para evitar la navbar */
+      left: 0;
+      z-index: 1040; /* Asegura que la sidebar esté por debajo de la navbar */
+      width: 100%;
+      height: auto;
+      background-color: #40C8FF;
+      padding-top: 20px;
+      overflow-y: scroll;
+    }
+  }
+  
+  /* Responsividad para pantallas extra pequeñas (móviles) */
+  @media (max-width: 480px) {
+    .d-flex.justify-content-end.gap-3.p-3 {
+      justify-content: center;
+    }
+  
+    /* Ajustar tamaño de iconos para pantallas pequeñas */
+    .d-flex.justify-content-end.gap-3.p-3 svg {
+      width: 18px;
+      height: 18px;
+    }
+  
+    /* Reducción de padding para evitar desbordamiento */
+    .p-4 {
+      padding: 1rem !important;
+    }
+  
+    /* Cambiar los botones de la sidebar para mejor visualización */
+    .btn-custom-sidebar {
+      font-size: 12px;
+      padding: 8px 12px;
+    }
+    
+    /* Ajuste del contenedor de la tabla */
+    .table tbody td, .table thead th {
+      padding: 8px !important;
+      font-size: 12px;
+    }
+  }
+  

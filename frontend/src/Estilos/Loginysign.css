@@ -1,0 +1,129 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 400; /* Regular */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+strong, b {
+  font-weight: 700; /* Bold */
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+.login-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: flex-start; /* Manténlo alineado hacia la izquierda */
+    align-items: center;
+    background: linear-gradient(135deg, transparent 50%, #ffffff 50%), /* Este es el gradiente */
+                url("../resources/Fondo.png") no-repeat center center; /* Este es el fondo de la imagen */
+    background-size: cover;
+    box-shadow: 200px 0 150px rgba(0, 0, 0, 0.8); /* Aumenta la sombra hacia la derecha */
+    z-index: 0; /* Asegura que la sombra esté por debajo de los elementos */
+}
+
+.login-box {
+  width: 90%; /* Responsive */
+  max-width: 500px; /* Aumenta el tamaño máximo del contenedor */
+  padding: 40px;
+  background: rgba(255, 255, 255, 0.9); /* Fondo blanco */
+  border-radius: 10px;
+  text-align: center;
+  margin-left: auto;
+  margin-right: 130px; /* Reducido el margen derecho para mover la caja más a la izquierda */
+  z-index: 1; /* Asegura que la caja esté encima del fondo */
+}
+
+.login-title {
+  font-size: 2.5rem; /* Título más grande */
+  font-weight: bold; /* Título en negrita */
+  margin-bottom: 20px; /* Espacio debajo del título */
+}
+
+.buttons {
+  display: flex;
+  gap: 15px;
+}
+
+.btn-login {
+    padding: 15px 30px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border-radius: 100px; /* Radio aumentado a 100px */
+    border: 2px solid #40C8FF !important; /* Borde en el color 40C8FF */
+    background: #40C8FF; /* Fondo en el color 40C8FF */
+    color: white; /* El texto es blanco */
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    text-align: center;
+    letter-spacing: 1px;
+    margin-left: 230px;
+    margin-top: 30px;/* Añade más espacio desde arriba */
+}
+
+.signup-link {
+    color: #016EC2; /* Cambia el color a #016EC2 */
+    text-decoration: none; /* Elimina el subrayado */
+    font-size: 1rem; /* Ajusta el tamaño de la fuente */
+    margin-top: 20px; /* Añade margen superior para separarlo del contenido anterior */
+    margin-left: 230px; /* Ajusta el margen izquierdo para alinearlo con el botón */
+    display: block; /* Asegura que se muestre en su propia línea */
+}
+
+.btn-login:hover {
+    background: white; /* Fondo blanco en hover */
+    color: #40C8FF; /* Color de texto en el color 40C8FF en hover */
+    opacity: 0.8;
+}
+
+.input-field {
+    width: 100%; /* Asegura que ocupe el 100% del contenedor */
+    max-width: 1000px; /* Aumenta el max-width para hacerlo más largo visualmente */
+    padding: 15px 20px; /* Aumenta el padding para darle más espacio interno */
+    border: 2px solid #64c2ff; /* Borde azul claro */
+    border-radius: 25px; /* Esquinas completamente redondeadas */
+    font-size: 18px; /* Aumenta el tamaño de la fuente */
+    color: #333;
+    background-color: transparent;
+    outline: none;
+    transition: all 0.3s ease-in-out;
+}
+
+.input-field::placeholder {
+  color: rgba(0, 0, 0, 0.3); /* Light gray placeholder */
+  font-weight: 300;
+}
+
+.input-field:focus {
+  border-color: #0099ff; /* Darker blue on focus */
+  box-shadow: 0 0 8px rgba(0, 153, 255, 0.5);
+}
+/* Alinea el texto a la derecha y cambia el color */
+.forgot-password-link, .signup-link {
+  color: #016EC2; /* Color deseado */
+  text-decoration: none; /* Elimina subrayado */
+  font-size: 1rem;
+  margin-top: 20px;
+  margin-right: 20px; /* Alineación a la derecha */
+  display: block;
+  text-align: right; /* Alinea el texto a la derecha */
+}
+
+.forgot-password-link:hover, .signup-link:hover {
+  color: #014a8a; /* Un color más oscuro al pasar el mouse */
+  text-decoration: underline; /* Subrayado al hacer hover */
+}
