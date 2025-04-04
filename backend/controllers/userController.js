@@ -61,23 +61,25 @@ const createUser = async (req, res) => {
     });
   }
 
-  try {
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(400).json({ message: "El correo ya está registrado" });
+  else {
+    try {
+      const existingUser = await User.findOne({ email });
+      if (existingUser) {
+        return res.status(400).json({ message: "El correo ya está registrado" });
+      }
+  
+      const verificationCode = generateVerificationCode();
+      // Enviar el código de verificación
+      await sendVerificationCode(email, verificationCode);
+  
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const newUser = new User({ name, email, password: hashedPassword, status: "inactive", verificationCode });
+  
+      await newUser.save();
+      res.status(201).json({ message: "Usuario registrado correctamente. Verifique su correo para activar su cuenta." });
+    } catch (err) {
+      res.status(500).json({ message: "Error al registrar el usuario", error: err });
     }
-
-    const verificationCode = generateVerificationCode();
-    // Enviar el código de verificación
-    await sendVerificationCode(email, verificationCode);
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new User({ name, email, password: hashedPassword, status: "inactive", verificationCode });
-
-    await newUser.save();
-    res.status(201).json({ message: "Usuario registrado correctamente. Verifique su correo para activar su cuenta." });
-  } catch (err) {
-    res.status(500).json({ message: "Error al registrar el usuario", error: err });
   }
 };
 
