@@ -15,6 +15,9 @@ const ClarityDashboard = () => {
   const [currentTime, setCurrentTime] = useState(moment().tz("America/Mexico_City").format("HH:mm"));
   const [userType, setUserType] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userId, setUserId] = useState(null); // Estado para almacenar el ID del usuario
+  const [alertsEnabled, setAlertsEnabled] = useState(false); // Estado para almacenar si las alertas están habilitadas
+  const [name, setName] = useState(""); // Estado para almacenar el nombre del usuario
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -110,6 +113,13 @@ const ClarityDashboard = () => {
           />
           <BsFlag size={20} className="text-dark" />
         </div>
+
+        <div className="d-flex justify-content-center align-items-center flex-grow-1">
+          <h1 className="text-center fw-bold" style={{ fontSize: "2.5rem", color: "#333" }}>
+            Bienvenido, {name} {userType === "admin" && "(Administrador)"}
+          </h1>
+        </div>
+        
 
         {/* Dashboard */}
         <Container className="mt-3 flex-grow-1 h-100 px-0">
