@@ -22,6 +22,10 @@ const ClarityDashboard = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     const user = JSON.parse(localStorage.getItem("user"));
+
+    console.log("🔐 Token:", token);
+    console.log("👤 Usuario desde localStorage:", user);
+    
     if (!token) {
       navigate("/login");
     } else {
@@ -119,7 +123,7 @@ const ClarityDashboard = () => {
             Bienvenido, {name} {userType === "admin" && "(Administrador)"}
           </h1>
         </div>
-        
+
 
         {/* Dashboard */}
         <Container className="mt-3 flex-grow-1 h-100 px-0">
