@@ -23,7 +23,7 @@ const ClarityDashboard = () => {
       navigate("/login");
     } else {
       if (user) setUserType(user.type);
-      setUserId(user._id); // o user.id según tu backend
+      setUserId(user.id); // o user.id según tu backend
       setAlertsEnabled(user.alerts); // inicializa el estado de alertas
       setName(user.name); // inicializa el estado del nombre
       setIsAuthenticated(true);
