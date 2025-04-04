@@ -103,7 +103,7 @@ const loginUser = async (req, res) => {
     }
 
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
-    res.json({ token, user: { id: user._id, name: user.name, email: user.email } });
+    res.json({ token, user: { id: user._id, name: user.name, email: user.email, alerts: user.alerts } });
   } catch (err) {
     res.status(500).json({ message: "Error al iniciar sesión", error: err });
   }
@@ -230,6 +230,25 @@ const getProfile = async (req, res) => {
   }
 };
 
+// Backend: Activar o desactivar alertas
+const toggleAlerts = async (req, res) => {
+  const userId = req.params.id;
+  const { alerts } = req.body;
+
+  try {
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ message: "Usuario no encontrado" });
+
+    user.alerts = alerts;
+    await user.save();
+
+    res.json({ message: `Alertas ${alerts ? "activadas" : "desactivadas"} correctamente` });
+  } catch (err) {
+    res.status(500).json({ message: "Error al actualizar las alertas", error: err });
+  }
+};
+
+
 // Exportar todas las funciones necesarias
 module.exports = {
     verifyToken,
@@ -240,5 +259,6 @@ module.exports = {
     deleteUser,
     deactivateUser,
     activateUser,
-    getProfile
+    getProfile,
+    toggleAlerts
 };

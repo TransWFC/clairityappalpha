@@ -9,7 +9,8 @@ const {
     deleteUser,
     deactivateUser,  // Asegúrate de que deactivateUser está importado
     activateUser,
-    getProfile
+    getProfile,
+    toggleAlerts,  // Asegúrate de que toggleAlerts está importado
 } = require("../controllers/userController");
 
 const router = express.Router();
@@ -19,6 +20,7 @@ router.post("/", createUser);  // Crear usuario
 router.post("/login", loginUser);  // Iniciar sesión
 router.get("/profile", verifyToken, getProfile);  // Obtener perfil del usuario autenticado
 router.put("/:id", verifyToken, updateUser);  // Actualizar usuario
+router.put("/:id/toggle-alerts", verifyToken, toggleAlerts);  // Activar o desactivar alertas
 
 router.delete("/:id", verifyToken, deleteUser);  // Eliminar usuario
 

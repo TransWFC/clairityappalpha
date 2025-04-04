@@ -23,6 +23,9 @@ const ClarityDashboard = () => {
       navigate("/login");
     } else {
       if (user) setUserType(user.type);
+      setUserId(user._id); // o user.id según tu backend
+      setAlertsEnabled(user.alerts); // inicializa el estado de alertas
+      setName(user.name); // inicializa el estado del nombre
       setIsAuthenticated(true);
     }
   }, [navigate]);
@@ -58,6 +61,29 @@ const ClarityDashboard = () => {
     navigate("/login");
   };
 
+  const toggleAlerts = async () => {
+    try {
+      const newValue = !alertsEnabled;
+      const res = await fetch(`/api/users/${userId}/toggle-alerts`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ alertsEnabled: newValue }),
+      });
+
+      if (res.ok) {
+        setAlertsEnabled(newValue);
+        // Actualizar el usuario guardado localmente
+        const updatedUser = { ...JSON.parse(localStorage.getItem("user")), alertsEnabled: newValue };
+        localStorage.setItem("user", JSON.stringify(updatedUser));
+      } else {
+        console.error("Error al actualizar las alertas");
+      }
+    } catch (error) {
+      console.error("Error al conectar con el servidor:", error);
+    }
+  };
+
+
   return (
     <div className="d-flex vh-100" style={{ fontFamily: "Raleway, sans-serif", paddingTop: "60px", overflow: "hidden" }}>
       {/* Sidebar solo para admin */}
@@ -76,7 +102,12 @@ const ClarityDashboard = () => {
 
         {/* Iconos fuera del Navbar */}
         <div className="d-flex justify-content-end gap-3 p-3">
-          <BsBell size={20} className="text-dark" style={{ cursor: "pointer" }} />
+          <BsBell
+            size={20}
+            className={alertsEnabled ? "text-primary" : "text-secondary"}
+            style={{ cursor: "pointer" }}
+            onClick={toggleAlerts}
+          />
           <BsFlag size={20} className="text-dark" />
         </div>
 
@@ -108,7 +139,7 @@ const ClarityDashboard = () => {
                     {sensorData ? sensorData.AQI : "--"}
                   </h2>
                 </div>
-                <div className="p-3 d-flex flex-column align-items-center bg-white" style={{  borderRadius: "5px" }}>
+                <div className="p-3 d-flex flex-column align-items-center bg-white" style={{ borderRadius: "5px" }}>
                   <div className="d-flex flex-column align-items-center justify-content-center w-100">
                     <BsSun size={24} className="text-dark me-2" />
                     <span className="fw-bold text-dark">{sensorData ? `${sensorData.temperature}°` : "--"}</span>
