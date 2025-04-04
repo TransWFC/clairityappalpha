@@ -25,12 +25,12 @@ const ClarityDashboard = () => {
 
     console.log("🔐 Token:", token);
     console.log("👤 Usuario desde localStorage:", user);
-    
+
     if (!token) {
       navigate("/login");
     } else {
       if (user) setUserType(user.type);
-      setUserId(user.id); // o user.id según tu backend
+      setUserId(user._id); // o user.id según tu backend
       setAlertsEnabled(user.alerts); // inicializa el estado de alertas
       setName(user.name); // inicializa el estado del nombre
       setIsAuthenticated(true);
