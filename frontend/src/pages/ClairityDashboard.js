@@ -73,7 +73,10 @@ const ClarityDashboard = () => {
       const newValue = !alertsEnabled;
       const res = await fetch(`/api/users/${userId}/toggle-alerts`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem("token")}`
+        },        
         body: JSON.stringify({ alertsEnabled: newValue }),
       });
 
