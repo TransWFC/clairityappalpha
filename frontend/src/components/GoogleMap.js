@@ -6,7 +6,7 @@ const mapContainerStyle = {
   height: "300px",
 };
 
-const defaultCenter = { lat: 20.5888, lng: -100.3899 }; // Coordenadas de Querétaro
+const defaultCenter = { lat: 20.5888, lng: -100.3899 };
 
 const SensorMap = ({ coordinates }) => {
   const parsedCoordinates = coordinates
@@ -14,7 +14,7 @@ const SensorMap = ({ coordinates }) => {
     : [defaultCenter.lat, defaultCenter.lng];
 
   return (
-    <LoadScript googleMapsApiKey="AIzaSyAQgj9mQb3clXQHxQBthZPrFuupUFkUYU0">
+    <LoadScript googleMapsApiKey="AIzaSyAGDw-iXmwuHGCI_OZF6kLiCIckMNa1U8c">
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
         center={{ lat: parsedCoordinates[0], lng: parsedCoordinates[1] }}

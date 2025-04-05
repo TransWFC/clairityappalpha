@@ -178,14 +178,26 @@ const ClarityDashboard = () => {
               </Card>
             </Col>
 
-            {/* Mapa y última actualización */}
             <Col md={6} className="mb-3">
               <p className="fw-bold mb-0 text-dark" style={{ fontSize: "1.2rem" }}>
                 Última actualización {sensorData ? moment(sensorData.timestamp).fromNow() : "Cargando..."}
               </p>
               <div className="bg-light p-3 rounded-4 shadow-lg" style={{ border: "2px solid #ddd", borderRadius: "10px" }}>
                 {sensorData && sensorData.location ? (
-                  <SensorMap key={sensorData.device_id} coordinates={sensorData?.location} />
+                  <>
+                    <div style={{ marginBottom: "10px" }}>
+                      <label htmlFor="coordinates">Enter Coordinates (lat, lng): </label>
+                      <input
+                        type="text"
+                        id="coordinates"
+                        value={coordinates}
+                        onChange={handleCoordinatesChange}
+                        placeholder="20.5888, -100.3899"
+                        style={{ padding: "5px", width: "250px" }}
+                      />
+                    </div>
+                    <SensorMap coordinates={coordinates} />
+                  </>
                 ) : (
                   <p>Cargando mapa...</p>
                 )}
