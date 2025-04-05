@@ -192,15 +192,13 @@ const [coordinates, setCoordinates] = useState(sensorData ? sensorData.location 
               <p className="fw-bold mb-0 text-dark" style={{ fontSize: "1.2rem" }}>
                 Última actualización {sensorData ? moment(sensorData.timestamp).fromNow() : "Cargando..."}
               </p>
-              <div className="bg-light p-3 rounded-4 shadow-lg" style={{ border: "2px solid #ddd", borderRadius: "10px" }}>
-                {sensorData && sensorData.location ? (
-                  <>
-                    <SensorMap coordinates={parseCoordinates(coordinates)} />
-                  </>
-                ) : (
-                  <p>Cargando mapa...</p>
-                )}
-              </div>
+              <div style={{ padding: "20px" }}>
+      <div style={{ marginBottom: "10px" }}>
+      </div>
+      <div>
+        <SensorMap coordinates={coordinates} />
+      </div>
+    </div>
             </Col>
           </Row>
 

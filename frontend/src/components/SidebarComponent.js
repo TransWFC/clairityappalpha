@@ -39,11 +39,9 @@ const SidebarComponent = ({ handleLogout }) => {
       >
         Visualización de Métricas
       </Button>
-      <Button className="my-2 text-start btn-custom-sidebar">
+      <Button className="my-2 text-start btn-custom-sidebar"
+      onClick={() => navigate("/ai")}>
         Predicciones y Modelos de IA
-      </Button>
-      <Button className="my-2 text-start btn-custom-sidebar">
-        Alertas y Notificaciones
       </Button>
       <Button
         className="mt-auto text-start fw-bold p-2 shadow-lg rounded-3 btn-danger-custom"
