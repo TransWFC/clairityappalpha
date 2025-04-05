@@ -195,17 +195,6 @@ const [coordinates, setCoordinates] = useState(sensorData ? sensorData.location 
               <div className="bg-light p-3 rounded-4 shadow-lg" style={{ border: "2px solid #ddd", borderRadius: "10px" }}>
                 {sensorData && sensorData.location ? (
                   <>
-                    <div style={{ marginBottom: "10px" }}>
-                      <label htmlFor="coordinates">Enter Coordinates (lat, lng): </label>
-                      <input
-                        type="text"
-                        id="coordinates"
-                        value={coordinates}
-                        onChange={handleCoordinatesChange}
-                        placeholder="20.5888, -100.3899"
-                        style={{ padding: "5px", width: "250px" }}
-                      />
-                    </div>
                     <SensorMap coordinates={parseCoordinates(coordinates)} />
                   </>
                 ) : (
