@@ -9,9 +9,16 @@ const mapContainerStyle = {
 const defaultCenter = { lat: 20.5888, lng: -100.3899 };
 
 const SensorMap = ({ coordinates }) => {
-  const parsedCoordinates = coordinates
-    ? coordinates.split(",").map((c) => parseFloat(c.trim()))
-    : [defaultCenter.lat, defaultCenter.lng];
+  let parsedCoordinates = defaultCenter;
+
+  // Check if coordinates is a string, otherwise assume it's already an array
+  if (coordinates) {
+    if (typeof coordinates === "string") {
+      parsedCoordinates = coordinates.split(",").map((c) => parseFloat(c.trim()));
+    } else if (Array.isArray(coordinates)) {
+      parsedCoordinates = coordinates;
+    }
+  }
 
   return (
     <LoadScript googleMapsApiKey="AIzaSyAGDw-iXmwuHGCI_OZF6kLiCIckMNa1U8c">
