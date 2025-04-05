@@ -41,7 +41,7 @@ const Evolucion = () => {
       const fetchData = async () => {
         try {
           setLoading(true);
-          const response = await axios.get("http://13.59.161.219:8000/api/calidad-aire");
+          const response = await axios.get("pythonapi/api/calidad-aire");
           setCityData(response.data);
         } catch (err) {
           console.error("Error fetching data:", err);
@@ -62,7 +62,7 @@ const Evolucion = () => {
   const toggleAlerts = async () => {
     try {
       const newValue = !alertsEnabled;
-      const res = await fetch(`/api/users/${userId}/toggle-alerts`, {
+      const res = await fetch(`/api /users/${userId}/toggle-alerts`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

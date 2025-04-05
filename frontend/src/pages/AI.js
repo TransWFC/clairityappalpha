@@ -43,7 +43,7 @@ function Ai() {
       const fetchData = async () => {
         try {
           setLoading(true);
-          const response = await axios.get("http://13.59.161.219:8000/api/calidad-aire");
+          const response = await axios.get("pythonapi/api/calidad-aire");
           setCityData(response.data);
           setError(null);
         } catch (err) {
