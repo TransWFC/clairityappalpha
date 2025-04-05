@@ -23,9 +23,6 @@ const ClarityDashboard = () => {
     const token = localStorage.getItem("token");
     const user = JSON.parse(localStorage.getItem("user"));
 
-    console.log("🔐 Token:", token);
-    console.log("👤 Usuario desde localStorage:", user);
-
     if (!token) {
       navigate("/login");
     } else {
@@ -208,18 +205,21 @@ const ClarityDashboard = () => {
             <Col md={10} className="p-3 bg-white rounded-4" style={{ border: "2px solid #ddd", borderRadius: "10px" }}>
               <h5 className="text-center fw-bold">Predicción con IA</h5>
               <div className="d-flex justify-content-around mt-2">
-                {["18:00", "19:00", "20:00", "21:00"].map((hour, index) => {
-                  const colors = ["#7CFC00", "#FFD700", "#9370DB", "#FF4500"];
-                  return (
-                    <div key={index} className="text-center">
-                      <p className="mb-1 fw-bold">{hour}</p>
-                      <div className="rounded-circle d-flex align-items-center justify-content-center fw-bold"
-                        style={{ width: "40px", height: "40px", backgroundColor: colors[index], color: "#000" }}>
-                        100
-                      </div>
-                    </div>
-                  );
-                })}
+              <Button
+                    variant="primary"
+                    className="rounded-circle mt-2 d-flex justify-content-center align-items-center"
+                    style={{
+                      width: "40px",
+                      height: "40px",
+                      backgroundColor: "#40C8FF",
+                      borderColor: "#40C8FF",
+                      padding: 0,
+                    }}
+                    onClick={() => navigate("/ai")}
+                  >
+                                        <BsPlus size={24} color="#000" />
+
+                                  </Button>
               </div>
             </Col>
           </Row>

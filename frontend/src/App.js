@@ -8,6 +8,8 @@ import ClarityDashboard from "./pages/ClairityDashboard";
 import DashboardDetail from "./pages/DashboardDetail";
 import DeviceManagement from "./pages/DeviceMonitoring";
 import Profile from "./pages/Profile"; // Import Profile page
+import Ai from "./pages/AI";
+import Evolucion from "./pages/Evolucion";
 
 const REACT_APP_BACKEND_API_URL = process.env.REACT_APP_BACKEND_API_URL;
 
@@ -25,6 +27,8 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/devices" element={<DeviceManagement />} />
         <Route path="/profile" element={<Profile />} /> {/* New route for profile */}
+        <Route path="/ai" element={<Ai />} /> {/* New route for AI page */}
+        <Route path="/evolucion" element={<Evolucion />} /> {/* New route for Evolucion */}
       </Routes>
     </Router>
   );
