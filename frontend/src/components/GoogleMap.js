@@ -14,7 +14,7 @@ const SensorMap = ({ coordinates }) => {
     : [defaultCenter.lat, defaultCenter.lng];
 
   return (
-    <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
+    <LoadScript googleMapsApiKey="AIzaSyBXGWAtHjPpo3dyoaPQy4aS8GzAnISM_hY">
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
         center={{ lat: parsedCoordinates[0], lng: parsedCoordinates[1] }}
