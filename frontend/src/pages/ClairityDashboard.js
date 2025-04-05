@@ -18,7 +18,8 @@ const ClarityDashboard = () => {
   const [userId, setUserId] = useState(null); // Estado para almacenar el ID del usuario
   const [alertsEnabled, setAlertsEnabled] = useState(false); // Estado para almacenar si las alertas están habilitadas
   const [name, setName] = useState(""); // Estado para almacenar el nombre del usuario
-
+const [coordinates, setCoordinates] = useState(sensorData ? sensorData.location : "20.5888, -100.3899");
+  
   useEffect(() => {
     const token = localStorage.getItem("token");
     const user = JSON.parse(localStorage.getItem("user"));
@@ -88,6 +89,15 @@ const ClarityDashboard = () => {
     } catch (error) {
       console.error("Error al conectar con el servidor:", error);
     }
+  };
+
+  const handleCoordinatesChange = (e) => {
+    setCoordinates(e.target.value);
+  };
+
+  const parseCoordinates = (coordinates) => {
+    const [lat, lng] = coordinates.split(",").map(coord => parseFloat(coord.trim()));
+    return { lat, lng };
   };
 
 
@@ -196,7 +206,7 @@ const ClarityDashboard = () => {
                         style={{ padding: "5px", width: "250px" }}
                       />
                     </div>
-                    <SensorMap coordinates={coordinates} />
+                    <SensorMap coordinates={parseCoordinates(coordinates)} />
                   </>
                 ) : (
                   <p>Cargando mapa...</p>
