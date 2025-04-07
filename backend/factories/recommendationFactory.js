@@ -1,6 +1,6 @@
 const { GoodAirQuality, ModerateAirQuality, UnhealthyAirQuality, HazardousAirQuality } = require("./recommendation");
 
-class RecommendationFactory {
+class recommendationFactory {
     static getRecommendation(aqi) {
         if (aqi <= 50) return new GoodAirQuality(aqi);
         if (aqi <= 100) return new ModerateAirQuality(aqi);
@@ -9,4 +9,4 @@ class RecommendationFactory {
     }
 }
 
-module.exports = RecommendationFactory;
+module.exports = recommendationFactory;
