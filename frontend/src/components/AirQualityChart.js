@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import { BsDownload } from "react-icons/bs";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import pdfIcon from "../resources/pdf.png"; // Icono PDF
@@ -9,32 +10,23 @@ import logo from "../resources/CLAIRITYWHITE.png";
 const AirQualityChart = () => {
   const [historicalData, setHistoricalData] = useState([]);
   const [filter, setFilter] = useState("day");
-  const [noDataMessage, setNoDataMessage] = useState("");
   const chartRef = useRef(null);
   const contentRef = useRef(null);
 
+  
   useEffect(() => {
     const fetchHistoricalData = async () => {
       try {
-        setNoDataMessage(""); // Clear the message at the start of each fetch
         const response = await fetch(`/api/sensors/history?filter=${filter}`);
-        
-        if (!response.ok) {
-          if (response.status === 404) {
-            setNoDataMessage("No hay datos disponibles para el período seleccionado. Por favor, seleccione otro filtro.");
-            setHistoricalData([]);
-            return;
-          }
-          throw new Error(`HTTP error ${response.status}`);
-        }
-        
         const data = await response.json();
 
         if (data.length === 0) {
           setNoDataMessage("No hay registros disponibles para el rango seleccionado. Por favor, cambie el filtro.");
-          setHistoricalData([]);
+          setHistoricalData([]); // Reset historical data if no records
           return;
         }
+
+        setNoDataMessage(""); // Clear the message if data is found
 
         if (filter === "week") {
           const groupedData = data.reduce((acc, entry) => {
@@ -75,7 +67,6 @@ const AirQualityChart = () => {
         }
       } catch (error) {
         console.error("Error fetching historical data:", error);
-        setNoDataMessage("Error al cargar datos. Por favor, intente más tarde.");
       }
     };
 
@@ -102,11 +93,6 @@ const AirQualityChart = () => {
   };
 
   const downloadPDF = () => {
-    if (historicalData.length === 0) {
-      alert("No hay datos disponibles para generar el PDF.");
-      return;
-    }
-    
     const pdf = new jsPDF('landscape', 'mm', 'a4');
     const pageWidth = pdf.internal.pageSize.getWidth();
     const pageHeight = pdf.internal.pageSize.getHeight();
@@ -169,11 +155,6 @@ const AirQualityChart = () => {
   };
 
   const downloadCSV = () => {
-    if (historicalData.length === 0) {
-      alert("No hay datos disponibles para descargar el CSV.");
-      return;
-    }
-    
     // Create a more detailed CSV with headers and metadata
     const today = new Date().toLocaleDateString();
     const timeDesc = {
@@ -218,7 +199,7 @@ const AirQualityChart = () => {
               src={pdfIcon}
               alt="Descargar PDF"
               onClick={downloadPDF}
-              style={{ width: "40px", cursor: "pointer", opacity: historicalData.length === 0 ? 0.5 : 1 }}
+              style={{ width: "40px", cursor: "pointer" }}
             />
             <span className="ms-2" style={{ fontSize: "1.1rem" }}>Descargar Reporte (PDF)</span>
           </div>
@@ -229,7 +210,7 @@ const AirQualityChart = () => {
               src={csvIcon}
               alt="Descargar CSV"
               onClick={downloadCSV}
-              style={{ width: "40px", cursor: "pointer", opacity: historicalData.length === 0 ? 0.5 : 1 }}
+              style={{ width: "40px", cursor: "pointer" }}
             />
             <span className="ms-2" style={{ fontSize: "1.1rem" }}>Descargar Datos (CSV)</span>
           </div>
@@ -237,47 +218,15 @@ const AirQualityChart = () => {
 
         <div className="col-md-8 position-relative">
           <div ref={chartRef} className="bg-white p-4 rounded-4 shadow-sm position-relative">
-            {noDataMessage ? (
-              <div className="d-flex justify-content-center align-items-center" style={{ height: '300px' }}>
-                <div className="text-center">
-                  <div className="alert alert-warning">
-                    <i className="bi bi-exclamation-triangle me-2"></i>
-                    {noDataMessage}
-                  </div>
-                  <p>Por favor, seleccione otro período:</p>
-                  <div className="d-flex justify-content-center gap-2">
-                    <button 
-                      className={`btn ${filter === 'hour' ? 'btn-secondary' : 'btn-outline-secondary'}`}
-                      onClick={() => setFilter('hour')}
-                    >
-                      Última hora
-                    </button>
-                    <button 
-                      className={`btn ${filter === 'day' ? 'btn-secondary' : 'btn-outline-secondary'}`}
-                      onClick={() => setFilter('day')}
-                    >
-                      Último día
-                    </button>
-                    <button 
-                      className={`btn ${filter === 'week' ? 'btn-secondary' : 'btn-outline-secondary'}`}
-                      onClick={() => setFilter('week')}
-                    >
-                      Última semana
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <ResponsiveContainer width="100%" height={300}>
-                <LineChart data={historicalData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="timestamp" />
-                  <YAxis label={{ value: "AQI", angle: -90, position: "insideLeft" }} />
-                  <Tooltip />
-                  <Line type="monotone" dataKey="AQI" stroke="#40C8FF" strokeWidth={2} dot={{ r: 4 }} />
-                </LineChart>
-              </ResponsiveContainer>
-            )}
+            <ResponsiveContainer width="100%" height={300}>
+              <LineChart data={historicalData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="timestamp" />
+                <YAxis label={{ value: "AQI", angle: -90, position: "insideLeft" }} />
+                <Tooltip />
+                <Line type="monotone" dataKey="AQI" stroke="#40C8FF" strokeWidth={2} dot={{ r: 4 }} />
+              </LineChart>
+            </ResponsiveContainer>
           </div>
         </div>
       </div>
