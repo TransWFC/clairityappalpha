@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Card, Container, Row, Col, Button } from "react-bootstrap";
-import { BsCloud, BsSun, BsBell, BsFlag, BsPlus } from "react-icons/bs";
+import { Card, Container, Row, Col, Button, Form } from "react-bootstrap";
+import { BsCloud, BsSun, BsFlag, BsPlus, BsBellFill, BsBellSlash } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import moment from "moment-timezone";
 import NavbarComponent from "../components/NavbarComponent";
@@ -118,17 +118,25 @@ const ClarityDashboard = () => {
         <NavbarComponent handleLogout={handleLogout} />
 
         <div className="d-flex justify-content-end gap-3 p-3 flex-wrap">
-          <BsBell
-            size={20}
-            className={alertsEnabled ? "text-primary" : "text-secondary"}
-            style={{ cursor: "pointer" }}
-            onClick={toggleAlerts}
-          />
+          <div className="d-flex align-items-center">
+            {alertsEnabled ? (
+              <BsBellFill size={20} className="text-primary me-2" />
+            ) : (
+              <BsBellSlash size={20} className="text-secondary me-2" />
+            )}
+            <Form.Check
+              type="switch"
+              id="alerts-switch"
+              checked={alertsEnabled}
+              onChange={toggleAlerts}
+              className="custom-switch"
+            />
+          </div>
           <BsFlag size={20} className="text-dark" />
         </div>
 
-        <div className="d-flex justify-content-center align-items-center text-center px-3">
-          <h1 className="fw-bold" style={{ fontSize: "2.5rem", color: "#333" }}>
+        <div className="d-flex align-items-center px-4">
+          <h1 className="fw-bold text-start" style={{ fontSize: "2.5rem", color: "#333" }}>
             Bienvenido, {name} {userType === "admin" && "(Administrador)"}
           </h1>
         </div>

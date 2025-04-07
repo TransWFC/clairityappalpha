@@ -12,6 +12,15 @@ const Visitor = () => {
   const [currentTime, setCurrentTime] = useState(moment().tz("America/Mexico_City").format("HH:mm"));
   const [showLoginModal, setShowLoginModal] = useState(false);
 
+  
+    // Check for token in localStorage and redirect if found
+    useEffect(() => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        navigate("/dashboard");
+      }
+    }, [navigate]);
+    
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentTime(moment().tz("America/Mexico_City").format("HH:mm"));

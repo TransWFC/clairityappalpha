@@ -32,6 +32,14 @@ const LoginPage = () => {
     }
   }, [message]);
 
+    // Check for token in localStorage and redirect if found
+    useEffect(() => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        navigate("/dashboard");
+      }
+    }, [navigate]);
+    
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");

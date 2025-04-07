@@ -6,7 +6,8 @@ import { es } from "date-fns/locale";
 import { useNavigate } from "react-router-dom";
 import NavbarComponent from "../components/NavbarComponent";
 import SidebarComponent from "../components/SidebarComponent";
-import { BsBell, BsFlag } from "react-icons/bs";
+import { BsBellFill, BsBellSlash, BsFlag } from "react-icons/bs";
+import { Form } from "react-bootstrap";
 import "./Ai.css";
 
 function Ai() {
@@ -185,84 +186,32 @@ function Ai() {
     return null; // No renderizar nada hasta que se verifique la autenticación
   }
 
-  if (loading) return (
-    <div className="d-flex vh-100" style={{ fontFamily: "Raleway, sans-serif", paddingTop: "60px", overflow: "hidden" }}>
-      {userType === "admin" && <SidebarComponent handleLogout={handleLogout} />}
-      <div className="flex-grow-1 d-flex flex-column h-100" 
-        style={{ overflow: "hidden", marginLeft: userType === "admin" ? "250px" : "0" }}>
-        <NavbarComponent handleLogout={handleLogout} />
-        <div className="loading">Cargando datos...</div>
-      </div>
-    </div>
-  );
-  
-  if (error) return (
-    <div className="d-flex vh-100" style={{ fontFamily: "Raleway, sans-serif", paddingTop: "60px", overflow: "hidden" }}>
-      {userType === "admin" && <SidebarComponent handleLogout={handleLogout} />}
-      <div className="flex-grow-1 d-flex flex-column h-100" 
-        style={{ overflow: "hidden", marginLeft: userType === "admin" ? "250px" : "0" }}>
-        <NavbarComponent handleLogout={handleLogout} />
-        <div className="error">{error}</div>
-      </div>
-    </div>
-  );
-  
-  if (!cityData) return (
-    <div className="d-flex vh-100" style={{ fontFamily: "Raleway, sans-serif", paddingTop: "60px", overflow: "hidden" }}>
-      {userType === "admin" && <SidebarComponent handleLogout={handleLogout} />}
-      <div className="flex-grow-1 d-flex flex-column h-100" 
-        style={{ overflow: "hidden", marginLeft: userType === "admin" ? "250px" : "0" }}>
-        <NavbarComponent handleLogout={handleLogout} />
-        <div>No hay datos disponibles</div>
-      </div>
-    </div>
-  );
-  
-  if (cityData[selectedCity]?.error) return (
-    <div className="d-flex vh-100" style={{ fontFamily: "Raleway, sans-serif", paddingTop: "60px", overflow: "hidden" }}>
-      {userType === "admin" && <SidebarComponent handleLogout={handleLogout} />}
-      <div className="flex-grow-1 d-flex flex-column h-100" 
-        style={{ overflow: "hidden", marginLeft: userType === "admin" ? "250px" : "0" }}>
-        <NavbarComponent handleLogout={handleLogout} />
+  const renderContent = () => {
+    if (loading) return <div className="loading-container"><div className="loading">Cargando datos...</div></div>;
+    
+    if (error) return <div className="error-container"><div className="error">{error}</div></div>;
+    
+    if (!cityData) return <div className="no-data">No hay datos disponibles</div>;
+    
+    if (cityData[selectedCity]?.error) return (
+      <div className="error-container">
         <div className="error">Error en datos de {selectedCity}: {cityData[selectedCity].error}</div>
       </div>
-    </div>
-  );
+    );
 
-  const chartData = prepareChartData();
-  const currentCity = cityData[selectedCity];
-  const currentValue = currentCity.current?.value;
-  const calidadActual = getCalidadAire(currentValue);
+    const chartData = prepareChartData();
+    const currentCity = cityData[selectedCity];
+    const currentValue = currentCity.current?.value;
+    const calidadActual = getCalidadAire(currentValue);
 
-  return (
-    <div className="d-flex vh-100" style={{ fontFamily: "Raleway, sans-serif", paddingTop: "60px", overflow: "auto" }}>
-      {/* Sidebar solo para admin */}
-      {userType === "admin" && <SidebarComponent handleLogout={handleLogout} />}
-
-      {/* Contenido principal */}
-      <div className="flex-grow-1 d-flex flex-column h-100" 
-        style={{ overflow: "auto", marginLeft: userType === "admin" ? "250px" : "0" }}>
-        {/* Navbar fija */}
-        <NavbarComponent handleLogout={handleLogout} />
-
-        {/* Iconos fuera del Navbar */}
-        <div className="d-flex justify-content-end gap-3 p-3">
-          <BsBell
-            size={20}
-            className={alertsEnabled ? "text-primary" : "text-secondary"}
-            style={{ cursor: "pointer" }}
-            onClick={toggleAlerts}
-          />
-          <BsFlag size={20} className="text-dark" />
-        </div>
-
-        {/* Contenido de la aplicación Ai */}
-        <div className="container py-3">
-          <h1 className="text-center fw-bold mb-4">Modelo de Predicción de Calidad del Aire</h1>
-          <p className="fecha-actual text-center">{format(new Date(), "EEEE dd MMMM yyyy HH:mm", { locale: es })}</p>
-          
-          <div className="city-selector mb-4">
-            <label htmlFor="ciudad">Selecciona una ciudad: </label>
+    return (
+      <div className="container py-3 px-md-4 px-2">
+        <h1 className="text-center fw-bold mb-4">Modelo de Predicción de Calidad del Aire</h1>
+        <p className="fecha-actual text-center mb-4">{format(new Date(), "EEEE dd MMMM yyyy HH:mm", { locale: es })}</p>
+        
+        <div className="city-selector mb-4 d-flex flex-wrap align-items-center gap-2">
+          <div className="d-flex align-items-center flex-wrap gap-2">
+            <label htmlFor="ciudad" className="mb-0 me-2">Selecciona una ciudad: </label>
             <select 
               id="ciudad"
               value={selectedCity}
@@ -275,108 +224,155 @@ function Ai() {
                 </option>
               ))}
             </select>
-            
-            <button 
-              className="btn btn-primary ms-3"
-              onClick={handleNavigate}
-            >
-              Ir a Gráfica de Evolución del Aire
-            </button>
           </div>
           
-          <div className="tarjetas row mb-4">
-            <div className="col-md-4 mb-3">
-              <div className="tarjeta h-100 p-4 rounded-4 shadow-lg" style={{ borderLeft: `5px solid ${calidadActual.color}` }}>
-                <h2>PM2.5 Actual</h2>
-                <p className="valor display-4">{currentValue ? currentValue.toFixed(2) : "N/D"} µg/m³</p>
-                <p className="calidad fw-bold" style={{ color: calidadActual.color }}>
+          <button 
+            className="btn btn-primary ms-auto"
+            onClick={handleNavigate}
+          >
+            Ir a Gráfica de Evolución del Aire
+          </button>
+        </div>
+        
+        <div className="tarjetas row mb-4 g-3">
+          <div className="col-lg-4 col-md-6 mb-md-0">
+            <div className="tarjeta h-100 p-4 rounded-4 shadow-lg d-flex flex-column justify-content-between" 
+                 style={{ borderLeft: `5px solid ${calidadActual.color}` }}>
+              <h3 className="fs-4">PM2.5 Actual</h3>
+              <div>
+                <p className="valor display-5 mb-1">{currentValue ? currentValue.toFixed(2) : "N/D"} µg/m³</p>
+                <p className="calidad fw-bold mb-0" style={{ color: calidadActual.color }}>
                   {calidadActual.nivel}
                 </p>
               </div>
             </div>
-            
-            <div className="col-md-4 mb-3">
-              <div className="tarjeta h-100 p-4 rounded-4 shadow-lg">
-                <h2>Variación (30 días)</h2>
-                <p className="valor display-4">{calculateVariation()}</p>
-              </div>
-            </div>
-            
-            <div className="col-md-4 mb-3">
-              <div className="tarjeta h-100 p-4 rounded-4 shadow-lg">
-                <h2>Próxima Predicción</h2>
-                <p className="valor display-4">
-                  {currentCity.forecast?.combined?.length > 0 ? 
-                    `${currentCity.forecast.combined[0].toFixed(2)} µg/m³` : "N/D"}
-                </p>
-              </div>
+          </div>
+          
+          <div className="col-lg-4 col-md-6 mb-md-0">
+            <div className="tarjeta h-100 p-4 rounded-4 shadow-lg d-flex flex-column justify-content-between">
+              <h3 className="fs-4">Variación (30 días)</h3>
+              <p className="valor display-5 mb-0">{calculateVariation()}</p>
             </div>
           </div>
           
-          <div className="grafico-container bg-light p-4 rounded-4 shadow-lg mb-4">
-            <h2 className="text-center mb-4">Evolución y Predicción de PM2.5</h2>
-            <ResponsiveContainer width="100%" height={400}>
-              <LineChart data={chartData}>
+          <div className="col-lg-4 col-md-12">
+            <div className="tarjeta h-100 p-4 rounded-4 shadow-lg d-flex flex-column justify-content-between">
+              <h3 className="fs-4">Próxima Predicción</h3>
+              <p className="valor display-5 mb-0">
+                {currentCity.forecast?.combined?.length > 0 ? 
+                  `${currentCity.forecast.combined[0].toFixed(2)} µg/m³` : "N/D"}
+              </p>
+            </div>
+          </div>
+        </div>
+        
+        <div className="grafico-container bg-light p-3 p-md-4 rounded-4 shadow-lg mb-4">
+          <h2 className="text-center mb-3 mb-md-4 fs-3">Evolución y Predicción de PM2.5</h2>
+          <div style={{ width: '100%', height: '400px', overflow: 'hidden' }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={chartData} margin={{ top: 5, right: 5, bottom: 70, left: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis 
                   dataKey="fecha" 
                   angle={-45} 
                   textAnchor="end" 
-                  height={60}
+                  height={80}
+                  tick={{ fontSize: 12 }}
+                  tickMargin={10}
                 />
                 <YAxis 
                   label={{ 
                     value: 'PM2.5 (µg/m³)', 
                     angle: -90, 
-                    position: 'insideLeft' 
+                    position: 'insideLeft',
+                    style: { textAnchor: 'middle' }
                   }} 
+                  tick={{ fontSize: 12 }}
                 />
                 <Tooltip 
                   formatter={(value) => [`${value} µg/m³`, "PM2.5"]}
                   labelFormatter={(label) => `Fecha: ${label}`}
+                  contentStyle={{ fontSize: '12px' }}
                 />
-                <Legend />
+                <Legend wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }} />
                 <Line 
                   type="monotone" 
                   dataKey="pm25" 
                   name="PM2.5"
                   stroke="#8884d8" 
-                  dot={{ r: 4 }}
-                  activeDot={{ r: 6 }}
+                  dot={{ r: 3 }}
+                  activeDot={{ r: 5 }}
+                  strokeWidth={2}
                 />
               </LineChart>
             </ResponsiveContainer>
           </div>
-         
-          <div className="tabla-container bg-light p-4 rounded-4 shadow-lg">
-            <h2 className="text-center mb-4">Detalles de Predicción</h2>
-            <div className="table-responsive">
-              <table className="table table-striped">
-                <thead>
-                  <tr>
-                    <th>Fecha</th>
-                    <th>PM2.5 (µg/m³)</th>
-                    <th>Tipo</th>
-                    <th>Calidad del Aire</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {chartData.map((item, index) => {
-                    const calidad = getCalidadAire(item.pm25);
-                    return (
-                      <tr key={index}>
-                        <td>{item.fecha}</td>
-                        <td>{item.pm25.toFixed(2)}</td>
-                        <td>{item.tipo}</td>
-                        <td style={{ color: calidad.color }}>{calidad.nivel}</td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
+        </div>
+       
+        <div className="tabla-container bg-light p-3 p-md-4 rounded-4 shadow-lg overflow-hidden">
+          <h2 className="text-center mb-3 mb-md-4 fs-3">Detalles de Predicción</h2>
+          <div className="table-responsive">
+            <table className="table table-striped table-hover">
+              <thead className="table-light">
+                <tr>
+                  <th>Fecha</th>
+                  <th>PM2.5 (µg/m³)</th>
+                  <th>Tipo</th>
+                  <th>Calidad del Aire</th>
+                </tr>
+              </thead>
+              <tbody>
+                {chartData.map((item, index) => {
+                  const calidad = getCalidadAire(item.pm25);
+                  return (
+                    <tr key={index}>
+                      <td>{item.fecha}</td>
+                      <td>{item.pm25.toFixed(2)}</td>
+                      <td>{item.tipo}</td>
+                      <td style={{ color: calidad.color }}>{calidad.nivel}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
           </div>
         </div>
+      </div>
+    );
+  };
+
+  return (
+    <div className="d-flex flex-column min-vh-100" style={{ fontFamily: "Raleway, sans-serif", paddingTop: "60px", overflow: "auto" }}>
+      {/* Sidebar solo para admin */}
+      {userType === "admin" && <SidebarComponent handleLogout={handleLogout} />}
+
+      {/* Contenido principal */}
+      <div className="flex-grow-1 d-flex flex-column" 
+        style={{ overflow: "auto", marginLeft: userType === "admin" ? "250px" : "0" }}>
+        {/* Navbar fija */}
+        <NavbarComponent handleLogout={handleLogout} />
+
+        {/* Iconos fuera del Navbar */}
+        <div className="d-flex justify-content-end gap-3 p-3 flex-wrap">
+          <div className="d-flex align-items-center">
+            {alertsEnabled ? (
+              <BsBellFill size={20} className="text-primary me-2" />
+            ) : (
+              <BsBellSlash size={20} className="text-secondary me-2" />
+            )}
+            <Form.Check
+              type="switch"
+              id="alerts-switch"
+              checked={alertsEnabled}
+              onChange={toggleAlerts}
+              className="custom-switch"
+            />
+          </div>
+          <BsFlag size={20} className="text-dark" />
+        </div>
+
+        {/* Contenido principal renderizado condicionalmente */}
+        {renderContent()}
       </div>
     </div>
   );

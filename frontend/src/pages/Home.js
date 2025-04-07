@@ -1,4 +1,4 @@
-import React from "react";
+import {useEffect, React } from "react";
 import { useNavigate } from "react-router-dom";
 import "../Estilos/Home.css";
 import logo from "../resources/CLAIRITYWHITEMONO.png";
@@ -6,6 +6,15 @@ import home from "../resources/home_back_image.png";
 
 function Home() {
   const navigate = useNavigate();
+
+  
+    // Check for token in localStorage and redirect if found
+    useEffect(() => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        navigate("/dashboard");
+      }
+    }, [navigate]);
 
   return (
     <div className="home-page-container">
