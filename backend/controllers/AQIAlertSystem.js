@@ -1,14 +1,19 @@
 const nodemailer = require("nodemailer");
 const mongoose = require("mongoose");
+require("dotenv").config();
 
 // Importar los modelos de mongoose
 const SensorData = require("../models/SensorData");
 const User = require("../models/User");
 
 // Conexión a MongoDB
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log("MongoDB connected successfully"))
-  .catch((error) => console.error("Error connecting to MongoDB:", error));
+// MongoDB Connection
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+  .then(() => console.log("✅ MongoDB connected successfully"))
+  .catch(err => console.error("❌ MongoDB connection error:", err));
 
 // Transporter usando Gmail
 const transporter = nodemailer.createTransport({

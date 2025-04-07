@@ -4,10 +4,12 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import pdfIcon from "../resources/pdf.png"; // Icono PDF
 import csvIcon from "../resources/csv.png"; // Icono CSV
+import logo from "../resources/CLAIRITYWHITE.png";
 
 const WeeklyAirQualityChart = () => {
   const [historicalData, setHistoricalData] = useState([]);
   const chartRef = useRef(null);
+  const contentRef = useRef(null);
 
   useEffect(() => {
     const fetchHistoricalData = async () => {
@@ -43,52 +45,155 @@ const WeeklyAirQualityChart = () => {
     fetchHistoricalData();
   }, []);
 
+  const getChartDescription = () => {
+    const today = new Date().toLocaleDateString();
+    
+    const avgAQI = historicalData.length > 0 
+      ? (historicalData.reduce((sum, entry) => sum + entry.AQI, 0) / historicalData.length).toFixed(2)
+      : "N/A";
+      
+    const maxAQI = historicalData.length > 0
+      ? Math.max(...historicalData.map(entry => entry.AQI)).toFixed(2)
+      : "N/A";
+      
+    const minAQI = historicalData.length > 0
+      ? Math.min(...historicalData.map(entry => entry.AQI)).toFixed(2)
+      : "N/A";
+      
+    const trend = historicalData.length > 1
+      ? historicalData[historicalData.length - 1].AQI > historicalData[0].AQI
+        ? "creciente"
+        : "decreciente"
+      : "estable";
+    
+    return `Reporte mensual de calidad del aire generado el ${today}. AQI promedio: ${avgAQI}. AQI máximo: ${maxAQI}. AQI mínimo: ${minAQI}. Tendencia: ${trend}.`;
+  };
+
   const downloadPDF = () => {
-    html2canvas(chartRef.current).then((canvas) => {
-      const imgData = canvas.toDataURL("image/png");
-      const pdf = new jsPDF();
-      pdf.addImage(imgData, "PNG", 10, 10, 190, 100);
-      pdf.save("weekly_air_quality_chart.pdf");
+    const pdf = new jsPDF('landscape', 'mm', 'a4');
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+    
+    // Add logo
+    html2canvas(document.createElement('img'), {
+      onclone: (document, element) => {
+        element.src = logo;
+        element.width = 150;
+        element.height = 40;
+      }
+    }).then(logoCanvas => {
+      const logoData = logoCanvas.toDataURL('image/png');
+      pdf.addImage(logoData, 'PNG', 10, 10, 50, 15);
+      
+      // Add title
+      pdf.setFontSize(18);
+      pdf.setFont('helvetica', 'bold');
+      pdf.text('Reporte Mensual de Calidad del Aire', pageWidth / 2, 18, { align: 'center' });
+      
+      // Add chart description
+      pdf.setFontSize(12);
+      pdf.setFont('helvetica', 'normal');
+      const description = getChartDescription();
+      pdf.text(description, 10, 30);
+      
+      // Add chart
+      html2canvas(chartRef.current).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        const imgWidth = pageWidth - 20;
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+        pdf.addImage(imgData, 'PNG', 10, 40, imgWidth, imgHeight);
+        
+        // Add data table
+        pdf.setFontSize(10);
+        pdf.text('Datos de la gráfica:', 10, imgHeight + 50);
+        
+        // Table headers
+        pdf.setFont('helvetica', 'bold');
+        pdf.text('Semana', 10, imgHeight + 60);
+        pdf.text('AQI Promedio', 60, imgHeight + 60);
+        
+        // Table rows
+        pdf.setFont('helvetica', 'normal');
+        historicalData.forEach((entry, index) => {
+          const y = imgHeight + 65 + (index * 5);
+          if (y < pageHeight - 20) { // Ensure we don't write off the page
+            pdf.text(entry.timestamp.toString(), 10, y);
+            pdf.text(entry.AQI.toFixed(2).toString(), 60, y);
+          }
+        });
+        
+        // Add interpretation section
+        const avgAQI = historicalData.length > 0 
+          ? (historicalData.reduce((sum, entry) => sum + entry.AQI, 0) / historicalData.length).toFixed(2)
+          : "N/A";
+        
+        pdf.setFontSize(12);
+        pdf.setFont('helvetica', 'bold');
+        pdf.text('Interpretación:', 10, imgHeight + 90);
+        
+        pdf.setFont('helvetica', 'normal');
+        pdf.text(`Este informe muestra el promedio semanal de calidad del aire (AQI) durante el último mes.`, 10, imgHeight + 100);
+        pdf.text(`El AQI promedio para este período es de ${avgAQI}.`, 10, imgHeight + 110);
+        
+        // Add footer with copyright
+        pdf.setFontSize(8);
+        pdf.text(`© Clairity ${new Date().getFullYear()} - Todos los derechos reservados`, pageWidth / 2, pageHeight - 10, { align: 'center' });
+        
+        pdf.save('reporte_mensual_calidad_aire.pdf');
+      });
     });
   };
 
   const downloadCSV = () => {
-    const csvContent = "data:text/csv;charset=utf-8," +
-      "Timestamp,AQI\n" +
-      historicalData.map(row => `${row.timestamp},${row.AQI}`).join("\n");
-    const encodedUri = encodeURI(csvContent);
+    // Create a more detailed CSV with headers and metadata
+    const today = new Date().toLocaleDateString();
+    const monthName = new Date().toLocaleString('es-ES', { month: 'long' });
+    
+    const csvContent = 
+      "# Reporte Mensual de Calidad del Aire - Clairity\n" +
+      `# Mes: ${monthName}\n` +
+      `# Generado: ${today}\n` +
+      "#\n" +
+      "Semana,AQI_Promedio\n" +
+      historicalData.map(row => `${row.timestamp},${row.AQI.toFixed(2)}`).join("\n");
+    
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
-    link.setAttribute("download", "weekly_air_quality_data.csv");
+    link.setAttribute("href", url);
+    link.setAttribute("download", `datos_mensuales_calidad_aire_${monthName}_${new Date().getFullYear()}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
   };
 
   return (
-    <div className="container-fluid py-4">
+    <div className="container-fluid py-4" ref={contentRef}>
       <h2 className="fw-bold">Promedio de AQI durante el mes</h2>
       <div className="bg-white p-4 rounded-4 shadow-sm">
-        {/* Icono para descargar PDF */}
-        <div className="mb-2" style={{ display: 'flex', alignItems: 'center' }}>
-          <img
-            src={pdfIcon}
-            alt="Descargar PDF"
-            onClick={downloadPDF}
-            style={{ width: "40px", cursor: "pointer" }}
-          />
-          <span className="ms-2" style={{ fontSize: "1.1rem" }}>Descargar Gráfica (PDF)</span>
-        </div>
+        {/* Iconos para descargar */}
+        <div className="row mb-3">
+          {/* Icono para descargar PDF */}
+          <div className="col-md-6 mb-2" style={{ display: 'flex', alignItems: 'center' }}>
+            <img
+              src={pdfIcon}
+              alt="Descargar PDF"
+              onClick={downloadPDF}
+              style={{ width: "40px", cursor: "pointer" }}
+            />
+            <span className="ms-2" style={{ fontSize: "1.1rem" }}>Descargar Reporte (PDF)</span>
+          </div>
 
-        {/* Icono para descargar CSV */}
-        <div className="mb-2" style={{ display: 'flex', alignItems: 'center' }}>
-          <img
-            src={csvIcon}
-            alt="Descargar CSV"
-            onClick={downloadCSV}
-            style={{ width: "40px", cursor: "pointer" }}
-          />
-          <span className="ms-2" style={{ fontSize: "1.1rem" }}>Descargar Datos (CSV)</span>
+          {/* Icono para descargar CSV */}
+          <div className="col-md-6 mb-2" style={{ display: 'flex', alignItems: 'center' }}>
+            <img
+              src={csvIcon}
+              alt="Descargar CSV"
+              onClick={downloadCSV}
+              style={{ width: "40px", cursor: "pointer" }}
+            />
+            <span className="ms-2" style={{ fontSize: "1.1rem" }}>Descargar Datos (CSV)</span>
+          </div>
         </div>
 
         <div ref={chartRef}>

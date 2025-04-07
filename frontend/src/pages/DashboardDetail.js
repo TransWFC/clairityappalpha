@@ -5,7 +5,6 @@ import { BsCloud, BsSun, BsBoxArrowRight, BsBell, BsFlag, BsPlus } from "react-i
 import AirQualityChart from "../components/AirQualityChart"; // Import the component
 import WeeklyAirQualityChart from "../components/WeeklyAirQualityChart"; // Import the weekly chart component
 import { useNavigate } from "react-router-dom";
-import SensorMap from "../components/GoogleMap"; // Ajusta la ruta según tu estructura
 import moment from "moment-timezone";
 import NavbarComponent from "../components/NavbarComponent"; // Asegúrate de que la ruta es correcta
 import SidebarComponent from "../components/SidebarComponent";
