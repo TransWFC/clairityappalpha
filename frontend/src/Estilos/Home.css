@@ -105,3 +105,44 @@ code {
   transform: scale(1.05);
   opacity: 0.9;
 }
+
+
+/* Keep all your original CSS unchanged, just add these media queries at the bottom */
+
+@media (max-width: 992px) {
+  .home-page-container {
+    flex-direction: column;
+  }
+  
+  .home-page-content, 
+  .home-page-image-container {
+    width: 100%;
+  }
+  
+  .home-page-image-container {
+    order: -1; /* Move image to top on mobile */
+    height: auto;
+    max-height: 40vh;
+  }
+  
+  .home-page-image {
+    max-height: 100%;
+    width: auto;
+  }
+}
+
+@media (max-width: 576px) {
+  .home-page-logo {
+    max-width: 80%;
+  }
+  
+  .home-page-tagline {
+    font-size: 0.9rem;
+    padding: 0 10px;
+  }
+  
+  .home-page-buttons {
+    width: 80%;
+    margin: 0 auto;
+  }
+}

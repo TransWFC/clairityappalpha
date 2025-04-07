@@ -7,16 +7,18 @@ const generateVerificationCode = () => {
 
 const sendVerificationCode = async (email, verificationCode) => {
   const transporter = nodemailer.createTransport({
-    service: "gmail", // Usa un servicio de correo adecuado
+    host: process.env.SMTP_HOST, // e.g. email-smtp.us-east-1.amazonaws.com
+    port: 465, // SSL (or 587 for TLS)
+    secure: true, // true for port 465, false for 587
     auth: {
-      user: process.env.GMAIL_USER, // Define tu correo en el .env
-      pass: process.env.GMAIL_PASS, // Define tu contraseña en el .env
+      user: process.env.SMTP_USER, // AWS SES SMTP Username
+      pass: process.env.SMTP_PASS, // AWS SES SMTP Password
     },
   });
 
   const info = await transporter.sendMail({
-    from: `"Clarity App" <${process.env.GMAIL_USER}>`, // Dirección del remitente
-    to: email, // Dirección del destinatario
+    from: `"Clarity App 👁️‍🗨️" <${process.env.MAIL_FROM}>`, // Recommended: domain email verified in SES
+    to: email,
     subject: "Código de verificación Clarity",
     text: `Tu código de verificación es: ${verificationCode}`,
   });
