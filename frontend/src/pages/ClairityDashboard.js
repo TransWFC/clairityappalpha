@@ -75,15 +75,20 @@ const ClarityDashboard = () => {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${localStorage.getItem("token")}`
         },
-        body: JSON.stringify({ alertsEnabled: newValue }),
+        body: JSON.stringify({ alertsEnabled: newValue }), // Send with alertsEnabled property
       });
-
+      
+      const data = await res.json(); // Get the response data
+      
       if (res.ok) {
-        setAlertsEnabled(newValue);
-        const updatedUser = { ...JSON.parse(localStorage.getItem("user")), alertsEnabled: newValue };
-        localStorage.setItem("user", JSON.stringify(updatedUser));
+        setAlertsEnabled(newValue); // Update the state immediately
+        
+        // Update user in localStorage with correct property name
+        const user = JSON.parse(localStorage.getItem("user"));
+        user.alerts = newValue; // Make sure we're using the same property name as backend
+        localStorage.setItem("user", JSON.stringify(user));
       } else {
-        console.error("Error al actualizar las alertas");
+        console.error("Error al actualizar las alertas:", data.message);
       }
     } catch (error) {
       console.error("Error al conectar con el servidor:", error);

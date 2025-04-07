@@ -230,23 +230,27 @@ const getProfile = async (req, res) => {
   }
 };
 
-// Backend: Activar o desactivar alertas
+// Backend function - Keep using 'alerts' property name as defined in your User model
 const toggleAlerts = async (req, res) => {
   const userId = req.params.id;
-  const { alerts } = req.body;
+  const { alertsEnabled } = req.body; // Changed from { alerts } to match frontend property name
 
   try {
     const user = await User.findById(userId);
     if (!user) return res.status(404).json({ message: "Usuario no encontrado" });
-
-    user.alerts = alerts;
+    
+    user.alerts = alertsEnabled; // Using alertsEnabled from request to set user.alerts
     await user.save();
-
-    res.json({ message: `Alertas ${alerts ? "activadas" : "desactivadas"} correctamente` });
+    
+    res.json({ 
+      message: `Alertas ${alertsEnabled ? "activadas" : "desactivadas"} correctamente`,
+      alerts: alertsEnabled // Return the new value to the frontend
+    });
   } catch (err) {
     res.status(500).json({ message: "Error al actualizar las alertas", error: err });
   }
 };
+
 
 
 // Exportar todas las funciones necesarias
