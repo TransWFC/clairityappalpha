@@ -1,13 +1,14 @@
 /* Estilo de la Sidebar */
 .sidebar {
     position: fixed;
-    top: 65px;
+    top: 65px; /* Deja espacio para la navbar */
     left: 0;
-    width: 250px;
+    width: 250px; /* Ancho fijo para pantallas grandes */
     height: calc(100vh - 65px); /* Ajusta la altura para no cubrir la navbar */
     background-color: #40C8FF;
     overflow-y: auto;
     z-index: 1000; /* Asegura que la sidebar quede encima del contenido */
+    transition: width 0.3s ease; /* Agrega una transición suave para el ancho en dispositivos pequeños */
 }
 
 /* Ajuste para el contenido cuando la sidebar está presente */
@@ -16,24 +17,30 @@
     transition: margin-left 0.3s ease-in-out; /* Animación suave */
 }
 
-/* En pantallas pequeñas, la sidebar se convierte en un menú desplegable */
+/* En pantallas pequeñas (menor a 768px), la sidebar se convierte en un menú desplegable */
 @media (max-width: 768px) {
     .sidebar {
-        position: absolute;
+        position: absolute; /* Cambia a posición absoluta para permitir que el contenido ocupe todo el espacio */
         top: 0;
         left: 0;
-        width: 100%;
-        height: auto;
-        background-color: #40C8FF;
-        padding: 10px 15px;
+        width: 100%; /* La sidebar ocupa todo el ancho en pantallas pequeñas */
+        height: auto; /* Permite que la altura se ajuste automáticamente */
+        padding: 10px 15px; /* Ajuste de padding para que el contenido no quede pegado */
+        z-index: 1050; /* Asegura que la sidebar esté por encima del contenido */
     }
 
     .content-container {
         margin-left: 0; /* El contenido ocupa todo el ancho de la pantalla en móviles */
     }
 
+    /* Botones de la sidebar */
     .btn-custom-sidebar {
-        width: 100%;
+        width: 100%; /* Los botones ocupan todo el ancho */
+        margin-bottom: 10px;
+    }
+
+    .btn-danger-custom {
+        width: 100%; /* El botón de salir ocupa todo el ancho */
         margin-bottom: 10px;
     }
 }
@@ -45,7 +52,7 @@
     font-weight: bold !important;
     padding: 12px 20px;
     border-radius: 5px;
-    width: 100%;
+    width: 100%; /* Los botones ocupan todo el ancho */
     text-align: left;
     border: none;
     margin: 5px 0;
@@ -65,7 +72,7 @@
     font-weight: bold !important;
     padding: 12px 20px;
     border-radius: 5px;
-    width: 100%;
+    width: 100%; /* Los botones ocupan todo el ancho */
     text-align: left;
     border: none;
     margin: 5px 0;

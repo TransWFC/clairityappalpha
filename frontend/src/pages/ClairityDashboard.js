@@ -15,11 +15,11 @@ const ClarityDashboard = () => {
   const [currentTime, setCurrentTime] = useState(moment().tz("America/Mexico_City").format("HH:mm"));
   const [userType, setUserType] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [userId, setUserId] = useState(null); // Estado para almacenar el ID del usuario
-  const [alertsEnabled, setAlertsEnabled] = useState(false); // Estado para almacenar si las alertas están habilitadas
-  const [name, setName] = useState(""); // Estado para almacenar el nombre del usuario
-const [coordinates, setCoordinates] = useState(sensorData ? sensorData.location : "20.5888, -100.3899");
-  
+  const [userId, setUserId] = useState(null);
+  const [alertsEnabled, setAlertsEnabled] = useState(false);
+  const [name, setName] = useState("");
+  const [coordinates, setCoordinates] = useState("20.5888, -100.3899");
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     const user = JSON.parse(localStorage.getItem("user"));
@@ -28,9 +28,9 @@ const [coordinates, setCoordinates] = useState(sensorData ? sensorData.location 
       navigate("/login");
     } else {
       if (user) setUserType(user.type);
-      setUserId(user._id); // o user.id según tu backend
-      setAlertsEnabled(user.alerts); // inicializa el estado de alertas
-      setName(user.name); // inicializa el estado del nombre
+      setUserId(user._id);
+      setAlertsEnabled(user.alerts);
+      setName(user.name);
       setIsAuthenticated(true);
     }
   }, [navigate]);
@@ -74,13 +74,12 @@ const [coordinates, setCoordinates] = useState(sensorData ? sensorData.location 
         headers: {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${localStorage.getItem("token")}`
-        },        
+        },
         body: JSON.stringify({ alertsEnabled: newValue }),
       });
 
       if (res.ok) {
         setAlertsEnabled(newValue);
-        // Actualizar el usuario guardado localmente
         const updatedUser = { ...JSON.parse(localStorage.getItem("user")), alertsEnabled: newValue };
         localStorage.setItem("user", JSON.stringify(updatedUser));
       } else {
@@ -100,25 +99,20 @@ const [coordinates, setCoordinates] = useState(sensorData ? sensorData.location 
     return { lat, lng };
   };
 
-
   return (
-    <div className="d-flex vh-100" style={{ fontFamily: "Raleway, sans-serif", paddingTop: "60px", overflow: "hidden" }}>
-      {/* Sidebar solo para admin */}
+    <div className="d-flex flex-column" style={{ fontFamily: "Raleway, sans-serif", paddingTop: "60px" }}>
       {userType === "admin" && <SidebarComponent handleLogout={handleLogout} />}
 
-      {/* Contenido principal */}
       <div
-        className="flex-grow-1 d-flex flex-column h-100"
-        style={{
-          overflow: "hidden",
-          marginLeft: userType === "admin" ? "250px" : "0", // Ajusta el margen izquierdo si el usuario es admin
-        }}
+        className="flex-grow-1 d-flex flex-column"
+        style={{ overflow: "auto", marginLeft: userType === "admin" ? "250px" : "0" }}
       >
-        {/* Navbar fija */}
+        {/* Añadir un top o margen superior aquí */}
+        <div style={{ marginTop: "20px" }}></div>
+
         <NavbarComponent handleLogout={handleLogout} />
 
-        {/* Iconos fuera del Navbar */}
-        <div className="d-flex justify-content-end gap-3 p-3">
+        <div className="d-flex justify-content-end gap-3 p-3 flex-wrap">
           <BsBell
             size={20}
             className={alertsEnabled ? "text-primary" : "text-secondary"}
@@ -128,29 +122,26 @@ const [coordinates, setCoordinates] = useState(sensorData ? sensorData.location 
           <BsFlag size={20} className="text-dark" />
         </div>
 
-        <div className="d-flex justify-content-center align-items-center flex-grow-1">
-          <h1 className="text-center fw-bold" style={{ fontSize: "2.5rem", color: "#333" }}>
+        <div className="d-flex justify-content-center align-items-center text-center px-3">
+          <h1 className="fw-bold" style={{ fontSize: "2.5rem", color: "#333" }}>
             Bienvenido, {name} {userType === "admin" && "(Administrador)"}
           </h1>
         </div>
 
-
-        {/* Dashboard */}
-        <Container className="mt-3 flex-grow-1 h-100 px-0">
-          <Row noGutters>
-            {/* Calidad del aire */}
-            <Col md={6} className="mb-3">
-              <Card className="text-center shadow-lg rounded-4 border-0" style={{ border: "2px solid #ddd", borderRadius: "30px" }}>
+        <Container className="mt-3 px-3">
+          <Row className="gx-3 gy-3">
+            <Col xs={12} md={6}>
+              <Card className="text-center shadow-lg border-0 rounded-4">
                 <div
-                  className="p-4 d-flex flex-column align-items-start shadow-lg w-100 position-relative"
+                  className="p-4 d-flex flex-column align-items-start w-100 position-relative"
                   style={{
                     minHeight: "250px",
                     backgroundColor: (() => {
                       const aqi = sensorData ? sensorData.AQI : 0;
-                      if (aqi <= 50) return "#00E400"; // Verde
-                      if (aqi <= 100) return "#FFFF00"; // Amarillo
-                      if (aqi <= 150) return "#FF7E00"; // Naranja
-                      return "#800080"; // Púrpura
+                      if (aqi <= 50) return "#00E400";
+                      if (aqi <= 100) return "#FFFF00";
+                      if (aqi <= 150) return "#FF7E00";
+                      return "#800080";
                     })(),
                     borderRadius: "20px",
                     border: "2px solid #ddd",
@@ -163,7 +154,7 @@ const [coordinates, setCoordinates] = useState(sensorData ? sensorData.location 
                     {sensorData ? sensorData.AQI : "--"}
                   </h2>
                 </div>
-                <div className="p-3 d-flex flex-column align-items-center bg-white" style={{ borderRadius: "5px" }}>
+                <div className="p-3 d-flex flex-column align-items-center bg-white rounded-bottom-4">
                   <div className="d-flex flex-column align-items-center justify-content-center w-100">
                     <BsSun size={24} className="text-dark me-2" />
                     <span className="fw-bold text-dark">{sensorData ? `${sensorData.temperature}°` : "--"}</span>
@@ -173,13 +164,7 @@ const [coordinates, setCoordinates] = useState(sensorData ? sensorData.location 
                   <Button
                     variant="primary"
                     className="rounded-circle mt-2 d-flex justify-content-center align-items-center"
-                    style={{
-                      width: "40px",
-                      height: "40px",
-                      backgroundColor: "#40C8FF",
-                      borderColor: "#40C8FF",
-                      padding: 0,
-                    }}
+                    style={{ width: "40px", height: "40px", backgroundColor: "#40C8FF", borderColor: "#40C8FF", padding: 0 }}
                     onClick={() => navigate("/detail")}
                   >
                     <BsPlus size={24} color="#000" />
@@ -188,47 +173,33 @@ const [coordinates, setCoordinates] = useState(sensorData ? sensorData.location 
               </Card>
             </Col>
 
-            <Col md={6} className="mb-3">
-              <p className="fw-bold mb-0 text-dark" style={{ fontSize: "1.2rem" }}>
+            <Col xs={12} md={6}>
+              <p className="fw-bold mb-2 text-dark" style={{ fontSize: "1.2rem" }}>
                 Última actualización {sensorData ? moment(sensorData.timestamp).fromNow() : "Cargando..."}
               </p>
-              <div style={{ padding: "20px" }}>
-      <div style={{ marginBottom: "10px" }}>
-      </div>
-      <div>
-        <SensorMap coordinates={coordinates} />
-      </div>
-    </div>
+              <div className="bg-white p-3 rounded-4 shadow-sm">
+                <SensorMap coordinates={coordinates} />
+              </div>
             </Col>
           </Row>
 
-          {/* Nueva fila agregada para el ID del dispositivo y la Predicción con IA */}
-          <Row className="mt-4 align-items-center p-3 shadow-sm rounded-4 bg-light" style={{ border: "2px solid #ddd", borderRadius: "5px" }}>
-            {/* ID del dispositivo */}
-            <Col md={2} className="d-flex flex-column align-items-center justify-content-center p-3 bg-white rounded-4" style={{ border: "2px solid #ddd", borderRadius: "10px" }}>
+          <Row className="mt-4 align-items-center p-3 shadow-sm rounded-4 bg-light gx-3 gy-3">
+            <Col xs={12} md={2} className="d-flex flex-column align-items-center justify-content-center p-3 bg-white rounded-4 border">
               <p className="text-muted mb-1 fw-bold">Dispositivo Actual:</p>
               <h5 className="mb-0 fw-bold">{sensorData ? sensorData.device_id : "Cargando..."}</h5>
             </Col>
 
-            {/* Predicción con IA */}
-            <Col md={10} className="p-3 bg-white rounded-4" style={{ border: "2px solid #ddd", borderRadius: "10px" }}>
+            <Col xs={12} md={10} className="p-3 bg-white rounded-4 border">
               <h5 className="text-center fw-bold">Predicción con IA</h5>
-              <div className="d-flex justify-content-around mt-2">
-              <Button
-                    variant="primary"
-                    className="rounded-circle mt-2 d-flex justify-content-center align-items-center"
-                    style={{
-                      width: "40px",
-                      height: "40px",
-                      backgroundColor: "#40C8FF",
-                      borderColor: "#40C8FF",
-                      padding: 0,
-                    }}
-                    onClick={() => navigate("/ai")}
-                  >
-                                        <BsPlus size={24} color="#000" />
-
-                                  </Button>
+              <div className="d-flex justify-content-center mt-2 flex-wrap gap-3">
+                <Button
+                  variant="primary"
+                  className="rounded-circle d-flex justify-content-center align-items-center"
+                  style={{ width: "40px", height: "40px", backgroundColor: "#40C8FF", borderColor: "#40C8FF", padding: 0 }}
+                  onClick={() => navigate("/ai")}
+                >
+                  <BsPlus size={24} color="#000" />
+                </Button>
               </div>
             </Col>
           </Row>

@@ -1,9 +1,31 @@
-/* Estilos para la tabla */
+/* Sidebar siempre visible y sin tapar el contenido */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100vh;
+    background-color: #40C8FF;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+}
+
+/* Contenedor principal de la tabla */
+.table-container {
+    margin-left: 250px;
+    padding: 70px 20px 20px 20px;
+    height: 100vh;
+    overflow: auto;
+    z-index: 0;
+}
+
+/* Estilos de la tabla */
 .table {
     width: 100%;
-    border-collapse: collapse !important; /* Asegura que los bordes se fusionen correctamente */
-    border-radius: 10px !important; /* Redondear los bordes de la tabla */
-    overflow: hidden; /* Asegura que los bordes redondeados no se corten */
+    border-collapse: collapse !important;
+    border-radius: 10px !important;
+    overflow: hidden;
+    table-layout: fixed;
 }
 
 .table thead tr {
@@ -13,103 +35,80 @@
 .table thead th {
     background-color: #40C8FF !important;
     color: white !important;
-    border: none !important; /* Eliminando borde de los encabezados */
+    border: none !important;
     text-align: center !important;
     font-weight: bold !important;
     padding: 10px !important;
 }
 
 .table tbody td {
-    border: 1px solid #ddd !important; /* Bordes uniformes para todas las celdas */
+    border: 1px solid #ddd !important;
     padding: 10px !important;
     text-align: center !important;
-    background-color: #fff !important; /* Fondo blanco uniforme */
+    background-color: #fff !important;
 }
 
 .table tbody tr:nth-child(even) {
-    background-color: #f8f9fa !important; /* Fondo alterno para filas */
+    background-color: #f8f9fa !important;
 }
 
 .table tbody tr:hover {
-    background-color: #d6f0ff !important; /* Fondo al pasar el mouse */
+    background-color: #d6f0ff !important;
 }
 
-/* Ajustar el borde de las filas */
 .table tbody tr {
-    border: none !important; /* Asegúrate de eliminar cualquier borde de las filas */
+    border: none !important;
 }
 
 .table th:first-child {
-    border-top-left-radius: 10px !important; /* Redondear la esquina superior izquierda */
+    border-top-left-radius: 10px !important;
 }
 
 .table th:last-child {
-    border-top-right-radius: 10px !important; /* Redondear la esquina superior derecha */
+    border-top-right-radius: 10px !important;
 }
 
 .table tr:last-child td:first-child {
-    border-bottom-left-radius: 10px !important; /* Redondear la esquina inferior izquierda */
+    border-bottom-left-radius: 10px !important;
 }
 
 .table tr:last-child td:last-child {
-    border-bottom-right-radius: 10px !important; /* Redondear la esquina inferior derecha */
+    border-bottom-right-radius: 10px !important;
 }
 
-/* Estilo para el contenedor que tiene la tabla */
-.table-container {
-    margin-left: 250px; /* Ajustar el margen para que la tabla no quede encima de la sidebar */
-    padding-top: 20px; /* Agregar un poco de espacio arriba para que no se pegue al navbar */
-}
-
-/* Ajuste para la sidebar */
-.sidebar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 250px;
-    height: 100vh;
-    background-color: #f4f4f4; /* Color de fondo para la sidebar */
-    z-index: 999; /* Asegura que la sidebar esté encima del contenido */
-}
-
-/* Ajuste para pantallas pequeñas */
+/* RESPONSIVE */
 @media (max-width: 1024px) {
+    .sidebar {
+        width: 200px;
+    }
+
     .table-container {
-        margin-left: 0; /* Elimina el margen para pantallas pequeñas */
-        padding-top: 70px; /* Asegura que haya espacio por encima de la tabla en pantallas pequeñas */
+        margin-left: 200px;
     }
 
     .table {
-        font-size: 12px; /* Reducir el tamaño de fuente en pantallas pequeñas */
-    }
-    
-    .sidebar {
-        width: 200px; /* Ajustar el tamaño de la sidebar para pantallas pequeñas */
-    }
-
-    .table-container {
-        margin-left: 0 !important; /* En pantallas pequeñas la tabla debe ocupar todo el ancho */
+        font-size: 12px;
     }
 }
 
-/* Ajuste adicional para pantallas móviles (menos de 768px) */
 @media (max-width: 768px) {
     .sidebar {
-        width: 100%; /* La sidebar ocupará toda la pantalla */
-        position: relative; /* Cambiar posición para que no se superponga */
-        z-index: 999;
+        width: 100%;
+        height: auto;
+        position: relative;
     }
 
     .table-container {
-        margin-left: 0; /* Elimina el margen para pantallas móviles */
-        padding-top: 70px; /* Espaciado por encima de la tabla */
+        margin-left: 0;
+        padding-left: 15px;
+        padding-right: 15px;
     }
 
     .table {
-        font-size: 11px; /* Reducir aún más el tamaño de la fuente */
+        font-size: 11px;
     }
 
     .table thead th {
-        font-size: 10px; /* Font-size de los encabezados en pantallas pequeñas */
+        font-size: 10px;
     }
 }

@@ -51,6 +51,7 @@ const DeviceManagement = () => {
         setSensorData(latestData);
       } catch (error) {
         console.error("Error fetching sensor data:", error);
+        alert("No se pudieron obtener los datos del sensor.");
       }
     };
 
@@ -76,17 +77,25 @@ const DeviceManagement = () => {
 
   return (
     <div className="d-flex vh-100">
+      {/* Sidebar a la izquierda */}
       {userType === "admin" && <SidebarComponent handleLogout={handleLogout} />}
-      
+
+      {/* Contenido principal */}
       <div className="flex-grow-1 d-flex flex-column content-container">
         <NavbarComponent handleLogout={handleLogout} />
-        
+
         <div className="d-flex justify-content-end gap-3 p-3">
-          <BsBell size={20} className="text-dark" onClick={() => setShowModal(true)} style={{ cursor: "pointer" }} />
-          <BsFlag size={20} className="text-dark" />
+          <BsBell
+            size={20}
+            className="text-dark"
+            onClick={() => setShowModal(true)}
+            style={{ cursor: "pointer" }}
+            aria-label="Notificaciones"
+          />
+          <BsFlag size={20} className="text-dark" aria-label="Marcar bandera" />
         </div>
-        
-        <Container className="mt-5 flex-grow-1">
+
+        <Container className="mt-5 flex-grow-1 table-container">
           <h2 className="fw-bold">Gestión de dispositivos</h2>
           <Card className="shadow-sm mt-3">
             <Card.Body>
@@ -108,13 +117,22 @@ const DeviceManagement = () => {
                       <tr key={sensor.device_id || index} className="text-center align-middle">
                         <td>{sensor.name || `Sensor ${index + 1}`}</td>
                         <td>
-                          <span className={`badge ${sensor.status === "Activo" ? "bg-success" : "bg-secondary"}`}>
+                          <span
+                            className={`badge ${sensor.status === "Activo" ? "bg-success" : "bg-secondary"}`}
+                            aria-label={sensor.status || "Desconocido"}
+                          >
                             {sensor.status || "Desconocido"}
                           </span>
                         </td>
                         <td className="d-flex align-items-center justify-content-center">
                           <span
-                            className={`me-2 ${sensor.AQI <= 50 ? "text-success" : sensor.AQI <= 100 ? "text-warning" : "text-danger"}`}
+                            className={`me-2 ${
+                              sensor.AQI <= 50
+                                ? "text-success"
+                                : sensor.AQI <= 100
+                                ? "text-warning"
+                                : "text-danger"
+                            }`}
                           >
                             ●
                           </span>

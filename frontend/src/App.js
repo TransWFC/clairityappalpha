@@ -10,6 +10,7 @@ import DeviceManagement from "./pages/DeviceMonitoring";
 import Profile from "./pages/Profile"; // Import Profile page
 import Ai from "./pages/AI";
 import Evolucion from "./pages/Evolucion";
+import Map from "./pages/MapCheck"; // Import MapCheck page
 const REACT_APP_BACKEND_API_URL = process.env.REACT_APP_BACKEND_API_URL;
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
         <Route path="/profile" element={<Profile />} /> {/* New route for profile */}
         <Route path="/ai" element={<Ai />} /> {/* New route for AI page */}
         <Route path="/evolucion" element={<Evolucion />} /> {/* New route for Evolucion */}
+        <Route path="/map" element={<Map />} /> {/* New route for MapCheck */}
       </Routes>
     </Router>
   );

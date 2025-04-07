@@ -12,8 +12,8 @@ h1, h2 {
 
 /* Botones */
 .btn-create-user {
-    padding: 10px 20px; /* Ajustado el tamaño */
-    font-size: 1rem; /* Ajustado el tamaño de la fuente */
+    padding: 10px 20px;
+    font-size: 1rem;
     font-weight: bold;
     border-radius: 30px;
     border: 2px solid #40C8FF !important;
@@ -24,7 +24,7 @@ h1, h2 {
     text-align: center;
     letter-spacing: 1px;
     margin-top: 20px;
-    width: auto; /* Ajustado para que no ocupe todo el ancho */
+    width: auto;
     display: inline-block;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -44,7 +44,7 @@ h1, h2 {
     transition: all 0.3s ease-in-out;
     margin-right: 10px;
     border: 2px solid #40C8FF !important;
-    background-color: #40C8FF !important; /* Color igual al de Crear Usuario */
+    background-color: #40C8FF !important;
 }
 
 .btn-update:hover, .btn-delete:hover, .btn-activate:hover, .btn-deactivate:hover {
@@ -54,19 +54,19 @@ h1, h2 {
 }
 
 .btn-update {
-    background-color: #40C8FF !important; /* Color igual al de Crear Usuario */
+    background-color: #40C8FF !important;
 }
 
 .btn-delete {
-    background-color: #40C8FF !important; /* Color igual al de Crear Usuario */
+    background-color: #40C8FF !important;
 }
 
 .btn-activate {
-    background-color: #40C8FF !important; /* Color igual al de Crear Usuario */
+    background-color: #40C8FF !important;
 }
 
 .btn-deactivate {
-    background-color: #40C8FF !important; /* Color igual al de Crear Usuario */
+    background-color: #40C8FF !important;
 }
 
 /* Estilos para el formulario */
@@ -152,4 +152,54 @@ form {
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
+    max-width: 600px; /* Limita el tamaño máximo en pantallas grandes */
+    width: 100%;
+}
+
+/* Estilos para los botones en vista móvil */
+@media (max-width: 768px) {
+    .btn-create-user,
+    .btn-update,
+    .btn-delete,
+    .btn-activate,
+    .btn-deactivate {
+        width: 100%; /* Hace que los botones ocupen todo el ancho en pantallas pequeñas */
+        margin: 10px 0; /* Añade un margen para separar los botones */
+    }
+
+    /* Agrupar los botones dentro de los elementos de lista */
+    li {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    li button {
+        width: 100%;
+        margin-bottom: 10px; /* Agrega espacio entre los botones */
+    }
+}
+
+/* Estilos para el botón de cerrar en el modal */
+.btn-close-modal {
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 30px;
+    border: 2px solid #40C8FF !important;
+    background-color: #40C8FF !important;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    text-align: center;
+    letter-spacing: 1px;
+    margin-top: 20px;
+    width: auto;
+    display: inline-block;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-close-modal:hover {
+    background-color: white !important;
+    color: #40C8FF !important;
+    opacity: 0.8;
 }

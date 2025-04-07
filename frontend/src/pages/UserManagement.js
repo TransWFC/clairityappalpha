@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import NavbarComponent from "../components/NavbarComponent"; // Asegúrate de que la ruta es correcta
 import "../Estilos/userManagement.css";
+import SidebarComponent from "../components/SidebarComponent";
 
 const UserManagement = () => {
   const navigate = useNavigate();
@@ -14,8 +15,6 @@ const UserManagement = () => {
   const [error, setError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [emailError, setEmailError] = useState("");
-  const [verificationCode, setVerificationCode] = useState("");
-  const [isVerifying, setIsVerifying] = useState(false);
   const token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -68,32 +67,11 @@ const UserManagement = () => {
       await axios.post("/api/users", newUser, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setTemporaryMessage("Usuario creado exitosamente. Por favor verifica tu correo electrónico.", "success");
+      setTemporaryMessage("Usuario creado exitosamente.", "success");
       setNewUser({ name: "", email: "", password: "" });
       fetchUsers();
     } catch (err) {
       setTemporaryError("Error al crear el usuario");
-    }
-  };
-
-  const verifyCode = async (e) => {
-    e.preventDefault();
-    setIsVerifying(true);
-
-    try {
-      const response = await axios.post("/api/users/verify", { email: newUser.email, code: verificationCode }, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      if (response.data.success) {
-        setTemporaryMessage("Correo verificado correctamente. Ahora puedes activar tu cuenta.", "success");
-        fetchUsers();
-      } else {
-        setError("Código de verificación incorrecto.");
-      }
-    } catch (err) {
-      setError("Error al verificar el código");
-    } finally {
-      setIsVerifying(false);
     }
   };
 
@@ -192,61 +170,63 @@ const UserManagement = () => {
   };
 
   return (
-    <div>
-      {/* Agregar el Navbar aquí */}
+    <div style={{ marginTop: '60px' }}>
       <NavbarComponent />
 
-      <div className="p-4 max-w-lg mx-auto">
-        <h1 className="text-xl font-bold mb-4">Gestión de Usuarios</h1>
-        {message && <p className="text-green-500">{message}</p>}
-        {error && <p className="text-red-500">{error}</p>}
+      <div style={{ display: "flex" }}>
+        {/* Sidebar */}
+        <SidebarComponent />
 
-        {/* Formulario para crear un usuario */}
-        <form onSubmit={createUser} className="mb-4">
-          <input className="border p-2 w-full mb-2" type="text" name="name" placeholder="Nombre" value={newUser.name} onChange={(e) => handleInputChange(e, setNewUser)} required />
-          <input className="border p-2 w-full mb-2" type="email" name="email" placeholder="Correo" value={newUser.email} onChange={(e) => handleInputChange(e, setNewUser)} required />
-          <input className="border p-2 w-full mb-2" type="password" name="password" placeholder="Contraseña" value={newUser.password} onChange={(e) => handleInputChange(e, setNewUser)} required />
-          {passwordError && <p className="text-red-500 text-sm">{passwordError}</p>}
-          <button type="submit" className="btn-create-user">Crear Usuario</button>
-        </form>
+        <div className="p-4 max-w-lg mx-auto w-full">
+          <h1 className="text-xl font-bold mb-4">Gestión de Usuarios</h1>
+          {message && <p className="text-green-500">{message}</p>}
+          {error && <p className="text-red-500">{error}</p>}
 
-        {/* Formulario para verificar el código */}
-        {isVerifying && (
-          <form onSubmit={verifyCode} className="mb-4">
-            <input className="border p-2 w-full mb-2" type="text" name="verificationCode" placeholder="Introduce el código de verificación" value={verificationCode} onChange={(e) => setVerificationCode(e.target.value)} required />
-            <button type="submit" className="btn-create-user">Verificar Código</button>
-          </form>
-        )}
-
-        {/* Lista de usuarios */}
-        <h2 className="text-lg font-semibold mb-2">Lista de Usuarios</h2>
-        <ul>
-          {users.map((user) => (
-            <li key={user._id} className="border p-2 mb-2 flex justify-between items-center">
-              <p>{user.name} ({user.email})</p>
-              <div>
-                <button className="btn-update" onClick={() => handleUpdateSelect(user)}>Editar</button>
-                <button className="btn-delete" onClick={() => deleteUser(user._id)}>Eliminar</button>
-                {user.status === "active" ? (
-                  <button className="btn-deactivate" onClick={() => deactivateUser(user._id)}>Desactivar</button>
-                ) : (
-                  <button className="btn-activate" onClick={() => activateUser(user._id)}>Activar</button>
-                )}
-              </div>
-            </li>
-          ))}
-        </ul>
-
-        {/* Formulario de actualización de usuario */}
-        {selectedUser && (
-          <form onSubmit={updateUser} className="mb-4">
-            <input className="border p-2 w-full mb-2" type="text" name="name" placeholder="Nombre" value={updatedUser.name || selectedUser.name} onChange={(e) => handleInputChange(e, setUpdatedUser)} />
-            <input className="border p-2 w-full mb-2" type="email" name="email" placeholder="Correo" value={updatedUser.email || selectedUser.email} onChange={(e) => handleInputChange(e, setUpdatedUser)} />
-            <input className="border p-2 w-full mb-2" type="password" name="password" placeholder="Contraseña" value={updatedUser.password || ""} onChange={(e) => handleInputChange(e, setUpdatedUser)} />
+          {/* Formulario para crear un usuario */}
+          <form onSubmit={createUser} className="mb-4">
+            <input className="border p-2 w-full mb-2" type="text" name="name" placeholder="Nombre" value={newUser.name} onChange={(e) => handleInputChange(e, setNewUser)} required />
+            <input className="border p-2 w-full mb-2" type="email" name="email" placeholder="Correo" value={newUser.email} onChange={(e) => handleInputChange(e, setNewUser)} required />
+            <input className="border p-2 w-full mb-2" type="password" name="password" placeholder="Contraseña" value={newUser.password} onChange={(e) => handleInputChange(e, setNewUser)} required />
             {passwordError && <p className="text-red-500 text-sm">{passwordError}</p>}
-            <button type="submit" className="btn-create-user">Actualizar Usuario</button>
+            <button type="submit" className="btn-create-user w-full py-2 mt-4">Crear Usuario</button>
           </form>
-        )}
+
+          {/* Lista de usuarios */}
+          <h2 className="text-lg font-semibold mb-2">Lista de Usuarios</h2>
+          <ul>
+            {users.map((user) => (
+              <li key={user._id} className="border p-2 mb-2 flex justify-between items-center">
+                <p>{user.name} ({user.email})</p>
+                <div>
+                  <button className="btn-update mx-1" onClick={() => handleUpdateSelect(user)}>Editar</button>
+                  <button className="btn-delete mx-1" onClick={() => deleteUser(user._id)}>Eliminar</button>
+                  {user.status === "active" ? (
+                    <button className="btn-deactivate mx-1" onClick={() => deactivateUser(user._id)}>Desactivar</button>
+                  ) : (
+                    <button className="btn-activate mx-1" onClick={() => activateUser(user._id)}>Activar</button>
+                  )}
+                </div>
+              </li>
+            ))}
+          </ul>
+
+          {/* Modal para actualizar usuario */}
+          {selectedUser && (
+            <div style={{ position: "fixed", top: "0", left: "0", right: "0", bottom: "0", backgroundColor: "rgba(0, 0, 0, 0.5)", display: "flex", justifyContent: "center", alignItems: "center" }}>
+              <div style={{ backgroundColor: "white", padding: "20px", borderRadius: "5px", width: "400px", boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)" }}>
+                <h2 className="text-lg font-semibold mb-2">Editar Usuario</h2>
+                <form onSubmit={updateUser}>
+                  <input className="border p-2 w-full mb-2" type="text" name="name" placeholder="Nombre" value={updatedUser.name || selectedUser.name} onChange={(e) => handleInputChange(e, setUpdatedUser)} />
+                  <input className="border p-2 w-full mb-2" type="email" name="email" placeholder="Correo" value={updatedUser.email || selectedUser.email} onChange={(e) => handleInputChange(e, setUpdatedUser)} />
+                  <input className="border p-2 w-full mb-2" type="password" name="password" placeholder="Contraseña" value={updatedUser.password || ""} onChange={(e) => handleInputChange(e, setUpdatedUser)} />
+                  {passwordError && <p className="text-red-500 text-sm">{passwordError}</p>}
+                  <button type="submit" className="btn-create-user w-full py-2 mt-4">Actualizar Usuario</button>
+                </form>
+                <button onClick={() => setSelectedUser(null)} className="btn-close-modal w-full py-2 mt-4">Cerrar</button>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

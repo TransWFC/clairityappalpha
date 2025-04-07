@@ -1,0 +1,88 @@
+/* Estilos generales de los botones */
+.btn-save, .btn-send-code, .btn-cancel, .btn-secondary {
+    padding: 15px 30px !important;
+    font-size: 1.1rem !important;
+    font-weight: bold !important;
+    border-radius: 100px !important; /* Radio aumentado a 100px */
+    border: 2px solid #40C8FF !important; /* Borde en el color 40C8FF */
+    background: #40C8FF !important; /* Fondo en el color 40C8FF */
+    color: white !important; /* El texto es blanco */
+    cursor: pointer !important;
+    transition: all 0.3s ease-in-out !important;
+    text-align: center !important;
+    letter-spacing: 1px !important;
+    width: 100%; /* Asegura que ocupe todo el ancho del contenedor */
+}
+
+/* Efecto hover para los botones */
+.btn-save:hover, .btn-send-code:hover, .btn-cancel:hover, .btn-secondary:hover {
+    background: white !important; /* Fondo blanco en hover */
+    color: #40C8FF !important; /* Color de texto en el color 40C8FF en hover */
+    opacity: 0.8 !important;
+}
+
+/* Estilos específicos para el botón de "Enviar código" */
+.btn-send-code {
+    margin-top: 20px !important; /* Añade más espacio desde arriba */
+}
+
+/* Estilos específicos para el botón de "Cancelar" */
+.btn-cancel {
+    background: #40C8FF !important; /* Fondo azul para el botón de cancelar */
+    color: white !important; /* Texto blanco en el botón de cancelar */
+    border: 2px solid #40C8FF !important; /* Borde azul para cancelar */
+}
+
+.btn-cancel:hover {
+    background: white !important; /* Fondo blanco en hover */
+    color: #40C8FF !important; /* Texto azul en hover */
+}
+
+/* Estilos para el botón de cerrar (X) */
+.close {
+    color: black !important; /* Color negro para la X */
+    font-size: 1.5rem !important; /* Tamaño de fuente reducido */
+    cursor: pointer;
+    font-weight: normal;
+    border: none; /* Sin borde */
+    background: none; /* Sin fondo */
+    position: absolute; /* Colocación en la esquina superior derecha */
+    top: 10px; /* Ajuste desde la parte superior */
+    right: 10px; /* Ajuste desde el lado derecho */
+}
+
+.close:hover {
+    opacity: 0.7 !important; /* Ligera opacidad en hover */
+}
+
+/* Estilos adicionales para el modal */
+.modal-content {
+    border-radius: 20px !important; /* Bordes redondeados para el modal */
+}
+
+.modal-header {
+    background-color: #40C8FF !important;
+    color: white !important;
+    font-weight: bold;
+}
+
+/* Estilos adicionales para el modal */
+.modal-content {
+    border-radius: 20px !important; /* Bordes redondeados para el modal */
+}
+
+.modal-header {
+    background-color: #40C8FF !important;
+    color: white !important;
+    font-weight: bold;
+}
+
+.modal-body input {
+    border-radius: 10px !important; /* Bordes redondeados para los inputs */
+    padding: 10px;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: space-between;
+}

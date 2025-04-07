@@ -331,6 +331,64 @@ router.put("/update", async (req, res) => {
 });
 
 
+// API para actualizar el perfil de un usuario
+router.put("/profile", async (req, res) => {
+  try {
+    const { name, email, password, confirmPassword, verificationCode } = req.body;
+    const token = req.headers.authorization?.split(" ")[1];
+
+    if (!token) {
+      return res.status(401).json({ message: "No autorizado, token no proporcionado" });
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await User.findById(decoded.userId); // Usamos el decoded para encontrar al usuario
+
+    // Si el usuario no existe, no es necesario verificarlo aquí, ya que el token está verificado
+    // Pasamos directamente a la actualización de los datos del usuario.
+
+    // Si el nombre se quiere cambiar
+    if (name) {
+      user.name = name;
+    }
+
+    // Si el correo electrónico se quiere cambiar
+    if (email) {
+      // Verificar el código de verificación antes de cambiar el correo
+      if (!verificationCodes[email] || verificationCodes[email].code !== verificationCode) {
+        return res.status(400).json({ message: 'Código de verificación incorrecto o expirado' });
+      }
+      
+      user.email = email;
+      delete verificationCodes[email]; // Eliminar el código de verificación una vez usado
+    }
+
+    // Si la contraseña se quiere cambiar
+    if (password) {
+      // Validar que las contraseñas coincidan
+      if (password !== confirmPassword) {
+        return res.status(400).json({ message: 'Las contraseñas no coinciden' });
+      }
+
+      // Validar la contraseña en términos de seguridad
+      if (!validatePassword(password)) {
+        return res.status(400).json({
+          message: "La nueva contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial."
+        });
+      }
+
+      // Encriptar la nueva contraseña
+      user.password = await bcrypt.hash(password, 10);
+    }
+
+    // Guardar los cambios en el usuario
+    await user.save();
+    res.json({ message: 'Perfil actualizado correctamente' });
+  } catch (error) {
+    console.error("Error al actualizar perfil:", error);
+    res.status(500).json({ message: 'Error al actualizar perfil del usuario' });
+  }
+});
 
 // Exportar rutas
 module.exports = router;

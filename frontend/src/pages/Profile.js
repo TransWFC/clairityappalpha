@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Pencil } from 'lucide-react';
 import NavbarComponent from "../components/NavbarComponent"; 
 import perfilImage from "../resources/perfil_2.png"; 
+import "../Estilos/profile.css"; // Asegúrate de tener este archivo de estilos
 
 const Profile = () => {
     const [user, setUser] = useState(null);
@@ -43,7 +44,7 @@ const Profile = () => {
 
     const handleSendVerificationCode = async () => {
         try {
-            const response = await fetch('/api/auth/send-verification-code-user', {
+            const response = await fetch('/api/auth/send-verification-code', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -74,7 +75,7 @@ const Profile = () => {
                 requestBody.verificationCode = verificationCode;
             }
 
-            const response = await fetch('/api/auth/update', {
+            const response = await fetch('/api/auth/profile', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -143,7 +144,7 @@ const Profile = () => {
                                         {editingField === 'email' && !codeSent ? (
                                             <>
                                                 <input type="text" placeholder="Nuevo correo" value={newValue} onChange={(e) => setNewValue(e.target.value)} className="form-control mt-3" />
-                                                <button className="btn w-100 mt-3" onClick={handleSendVerificationCode}>Enviar código</button>
+                                                <button className="btn-send-code w-100 mt-3" onClick={handleSendVerificationCode}>Enviar código</button>
                                             </>
                                         ) : (
                                             <>
@@ -154,8 +155,8 @@ const Profile = () => {
                                         )}
                                     </div>
                                     <div className="modal-footer">
-                                        <button className="btn btn-secondary" onClick={() => setModalVisible(false)}>Cancelar</button>
-                                        <button className="btn btn-primary" onClick={handleSave}>Guardar</button>
+                                        <button className="btn-cancel" onClick={() => setModalVisible(false)}>Cancelar</button>
+                                        <button className="btn-save" onClick={handleSave}>Guardar</button>
                                     </div>
                                 </div>
                             </div>

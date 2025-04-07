@@ -25,14 +25,6 @@ const SignupPage = () => {
     return () => clearTimeout(timer);
   }, [countdown]);
 
-    // Check for token in localStorage and redirect if found
-    useEffect(() => {
-      const token = localStorage.getItem("token");
-      if (token) {
-        navigate("/dashboard");
-      }
-    }, [navigate]);
-
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };

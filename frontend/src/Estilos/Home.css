@@ -7,11 +7,11 @@
 }
 
 body {
-  margin: 0;
   font-family: 'Raleway', sans-serif;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #ffffff;
 }
 
 strong, b {
@@ -22,76 +22,55 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
-.home-page-logo {
-  transform: scale(0.6);
-  position: absolute; /* Lo mueve de forma independiente */
-  left: -190px; /* Mueve el logo más a la izquierda */
-  top: 150px; /* Ajusta este valor si deseas moverlo hacia abajo o hacia arriba */
-  display: block;
-}
-
-
-/* Imagen principal (derecha) */
-.home-page-image {
-  transform: scale(1.5);
-  width: 80%;
-  margin-left: auto; /* Empuja la imagen hacia la derecha */
-  display: block;    /* Asegura que la imagen esté alineada correctamente */
-}
-
-/* Contenedor principal */
 .home-page-container {
-  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
   width: 100vw;
   height: 100vh;
-  display: flex;
-  justify-content: flex-start; /* Alinea el contenido hacia la izquierda */
-  align-items: center; /* Centra el contenido verticalmente */
   background: linear-gradient(135deg, #4cc9f0 50%, #ffffff 50%);
-  color: white;
-  flex-direction: row; /* Asegura que el logo y la imagen se acomoden en fila */
+  overflow: hidden;
+  padding: 40px;
 }
 
-/* Contenido de la izquierda */
 .home-page-content {
-  max-width: 500px;
+  flex: 1;
+  max-width: 600px;
   color: white;
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* Alinea los elementos al inicio */
+  align-items: flex-start;
   justify-content: center;
   z-index: 10;
-  margin-left: 80px; /* Ajuste de margen izquierdo para no estar pegado al borde */
-  margin-right: 50px; /* Ajuste de margen derecho para dar espacio a la imagen */
 }
 
-/* Texto principal */
+.home-page-logo {
+  width: 300px;
+  max-width: 100%;
+  margin-bottom: 20px;
+}
+
 .home-page-tagline {
   font-size: 1.2rem;
   margin: 20px 0;
-  text-align: left; /* Alinea el texto a la izquierda */
-  margin-left: 0; /* Ajuste de margen izquierdo */
+  text-align: left;
 }
 
-/* Botones */
 .home-page-buttons {
   display: flex;
-  flex-direction: row;
-  gap: 15px;
-  align-items: center;
-  justify-content: flex-start; /* Los botones se alinean a la izquierda */
   flex-wrap: wrap;
-  margin-left: 0; /* Alinea los botones sin margen adicional */
+  gap: 15px;
 }
 
 .home-page-btn {
   padding: 15px 30px;
   font-size: 1.1rem;
   font-weight: bold;
-  border-radius: 100px; /* Radio aumentado a 100px */
-  border: 2px solid white !important;
+  border-radius: 100px;
+  border: 2px solid white;
   background: rgba(255, 255, 255, 0.1);
-  color: white; /* El texto es blanco */
+  color: white;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
   text-align: center;
@@ -101,48 +80,77 @@ code {
 
 .home-page-btn:hover {
   background: white;
-  color: white; /* El texto sigue siendo blanco al pasar el cursor */
+  color: #4cc9f0;
   transform: scale(1.05);
   opacity: 0.9;
 }
 
+.home-page-image-container {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
 
-/* Keep all your original CSS unchanged, just add these media queries at the bottom */
+.home-page-image {
+  max-width: 100%;
+  height: auto;
+  transform: scale(1.3);
+}
 
+/* ========== RESPONSIVE FIX ========== */
 @media (max-width: 992px) {
   .home-page-container {
     flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;
+    padding: 40px 20px;
+    height: auto;
+    background: #4cc9f0; /* cambiamos el fondo a azul completo */
   }
-  
-  .home-page-content, 
-  .home-page-image-container {
+
+  .home-page-content {
+    align-items: center;
+    text-align: center;
+    z-index: 2;
+    margin-bottom: 30px;
     width: 100%;
   }
-  
-  .home-page-image-container {
-    order: -1; /* Move image to top on mobile */
-    height: auto;
-    max-height: 40vh;
+
+  .home-page-buttons {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
   }
-  
+
+  .home-page-btn {
+    width: 80%;
+    max-width: 300px;
+  }
+
+  .home-page-image-container {
+    width: 100%;
+    background-color: #ffffff;
+    padding: 30px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   .home-page-image {
-    max-height: 100%;
-    width: auto;
+    transform: scale(1);
+    width: 70%;
   }
 }
 
 @media (max-width: 576px) {
-  .home-page-logo {
-    max-width: 80%;
+  .home-page-btn {
+    padding: 10px 20px;
+    font-size: 1rem;
   }
-  
+
   .home-page-tagline {
-    font-size: 0.9rem;
-    padding: 0 10px;
-  }
-  
-  .home-page-buttons {
-    width: 80%;
-    margin: 0 auto;
+    font-size: 1rem;
   }
 }

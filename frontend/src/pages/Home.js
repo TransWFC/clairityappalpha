@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
 import "../Estilos/Home.css";
 import logo from "../resources/CLAIRITYWHITEMONO.png";
 import home from "../resources/home_back_image.png";
@@ -8,18 +7,10 @@ import home from "../resources/home_back_image.png";
 function Home() {
   const navigate = useNavigate();
 
-  // Check for token in localStorage and redirect if found
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      navigate("/dashboard");
-    }
-  }, [navigate]);
-
   return (
     <div className="home-page-container">
       <div className="home-page-content">
-        <img src={logo} alt="Clairity Logo" className="home-page-logo img-fluid" />
+        <img src={logo} alt="Clairity Logo" className="home-page-logo" />
         <p className="home-page-tagline">
           "En Clairity, transformamos datos en decisiones inteligentes para un aire más limpio y saludable."
         </p>
@@ -39,7 +30,7 @@ function Home() {
         </div>
       </div>
       <div className="home-page-image-container">
-        <img src={home} alt="Ilustración fondo" className="home-page-image img-fluid" />
+        <img src={home} alt="Ilustración fondo" className="home-page-image" />
       </div>
     </div>
   );
