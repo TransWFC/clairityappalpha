@@ -7,7 +7,7 @@ const generateVerificationCode = () => {
 
 const sendVerificationCode = async (email, verificationCode) => {
   const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST, // e.g. email-smtp.us-east-1.amazonaws.com
+    host: process.env.SMTP_HOST, // e.g. email-smtp.us-east-2.amazonaws.com
     port: 465, // SSL (or 587 for TLS)
     secure: true, // true for port 465, false for 587
     auth: {
