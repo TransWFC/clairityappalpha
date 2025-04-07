@@ -13,11 +13,20 @@ const AirQualityChart = () => {
   const chartRef = useRef(null);
   const contentRef = useRef(null);
 
+  
   useEffect(() => {
     const fetchHistoricalData = async () => {
       try {
         const response = await fetch(`/api/sensors/history?filter=${filter}`);
         const data = await response.json();
+
+        if (data.length === 0) {
+          setNoDataMessage("No hay registros disponibles para el rango seleccionado. Por favor, cambie el filtro.");
+          setHistoricalData([]); // Reset historical data if no records
+          return;
+        }
+
+        setNoDataMessage(""); // Clear the message if data is found
 
         if (filter === "week") {
           const groupedData = data.reduce((acc, entry) => {
@@ -60,6 +69,7 @@ const AirQualityChart = () => {
         console.error("Error fetching historical data:", error);
       }
     };
+
     fetchHistoricalData();
   }, [filter]);
 
