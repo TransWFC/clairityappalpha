@@ -1,4 +1,4 @@
-const { GoodAirQuality, ModerateAirQuality, UnhealthyAirQuality, HazardousAirQuality } = require("../models/recommendation");
+const { GoodAirQuality, ModerateAirQuality, UnhealthyAirQuality, HazardousAirQuality } = require("./recommendation");
 
 class RecommendationFactory {
   static getRecommendation(aqi) {
