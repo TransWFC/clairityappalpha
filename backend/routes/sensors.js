@@ -47,17 +47,15 @@ router.get("/get", async (req, res) => {
   }
 });
 
-// Route handler for historical sensor data
 router.get("/history", async (req, res) => {
   try {
     console.log("📤 Fetching historical sensor data...");
-    
+
     let { startDate, endDate, filter } = req.query;
-    
+
     const now = new Date();
-    if (!filter) filter = "day"; // Default filter
-    
-    // Set time range based on filter
+    if (!filter) filter = "day"; // Filtro por defecto
+
     switch (filter) {
       case "hour":
         startDate = new Date(now.setHours(now.getHours() - 1)).toISOString();
@@ -69,30 +67,24 @@ router.get("/history", async (req, res) => {
         startDate = new Date(now.setDate(now.getDate() - 7)).toISOString();
         break;
       default:
-        return res.status(400).json({ 
-          error: "Invalid filter type", 
-          message: "El tipo de filtro especificado no es válido. Use 'hour', 'day', o 'week'." 
-        });
+        return res.status(400).json({ error: "Invalid filter type" });
     }
-    
     endDate = new Date().toISOString();
-    
+
     const start = new Date(startDate);
     const end = new Date(endDate);
-    
+
     const query = { timestamp: { $gte: start, $lte: end } };
     const data = await SensorData.find(query).sort({ timestamp: 1 }).limit(1000);
-    
-    // Return an empty array with 200 status instead of 404 when no data is found
-    // This lets the frontend handle the "no data" display logic
-    return res.status(200).json(data);
-    
+
+    if (data.length === 0) {
+      return res.status(404).json({ message: "No historical data found for the given range" });
+    }
+
+    res.json(data);
   } catch (error) {
     console.error("❌ Error fetching historical sensor data:", error);
-    res.status(500).json({ 
-      error: error.message,
-      message: "Error al obtener datos históricos. Por favor, intente más tarde."
-    });
+    res.status(500).json({ error: error.message });
   }
 });
 
