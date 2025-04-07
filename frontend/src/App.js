@@ -11,6 +11,7 @@ import Profile from "./pages/Profile"; // Import Profile page
 import Ai from "./pages/AI";
 import Evolucion from "./pages/Evolucion";
 import Map from "./pages/MapCheck"; // Import MapCheck page
+import Visitor from "./pages/Visitor";
 const REACT_APP_BACKEND_API_URL = process.env.REACT_APP_BACKEND_API_URL;
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
         <Route path="/ai" element={<Ai />} /> {/* New route for AI page */}
         <Route path="/evolucion" element={<Evolucion />} /> {/* New route for Evolucion */}
         <Route path="/map" element={<Map />} /> {/* New route for MapCheck */}
+        <Route path="/visitor" element={<Visitor />} /> {/* New route for Visitor */}
       </Routes>
     </Router>
   );

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import { BsHouseFill } from "react-icons/bs";
 import "../Estilos/Loginysign.css";
 
 const LoginPage = () => {
@@ -134,6 +135,28 @@ const LoginPage = () => {
 
   return (
     <div className="login-container">
+      {/* Home Button */}
+      <Link 
+        to="/" 
+        style={{
+          position: "absolute",
+          top: "20px",
+          left: "20px",
+          color: "#40C8FF",
+          backgroundColor: "white",
+          borderRadius: "50%",
+          width: "40px",
+          height: "40px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          boxShadow: "0 2px 5px rgba(0,0,0,0.2)",
+          zIndex: 10
+        }}
+      >
+        <BsHouseFill size={20} />
+      </Link>
+      
       <div className="login-box">
         <h2 className="login-title">
           {isSigningUp ? "Crear Cuenta" : isResetting ? "Recuperar Contraseña" : "Iniciar Sesión"}
@@ -253,7 +276,7 @@ const LoginPage = () => {
               ¿Olvidaste tu contraseña?
             </p>
             <p className="signup-link">
-              <a href="/signup">¿No tienes cuenta? Crea tu cuenta aquí</a>
+              <span onClick={() => setIsSigningUp(true)}>¿No tienes cuenta? Crea tu cuenta aquí</span>
             </p>
           </>
         ) : isResetting ? (
