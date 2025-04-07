@@ -104,15 +104,21 @@ const WeeklyAirQualityChart = () => {
     const pageWidth = pdf.internal.pageSize.getWidth();
     const pageHeight = pdf.internal.pageSize.getHeight();
     
-    // Add logo
-    html2canvas(document.createElement('img'), {
-      onclone: (document, element) => {
-        element.src = logo;
-        element.width = 150;
-        element.height = 40;
-      }
-    }).then(logoCanvas => {
-      const logoData = logoCanvas.toDataURL('image/png');
+    // Add logo directly using the imported image
+    const logoImg = new Image();
+    logoImg.src = logo;
+    
+    // Create a function to continue once the logo is loaded
+    logoImg.onload = function() {
+      // Create a canvas to convert the logo to a data URL
+      const canvas = document.createElement('canvas');
+      canvas.width = logoImg.width;
+      canvas.height = logoImg.height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(logoImg, 0, 0, logoImg.width, logoImg.height);
+      const logoData = canvas.toDataURL('image/png');
+      
+      // Add logo to PDF
       pdf.addImage(logoData, 'PNG', 10, 10, 50, 15);
       
       // Add title
@@ -171,7 +177,7 @@ const WeeklyAirQualityChart = () => {
         
         pdf.save('reporte_mensual_calidad_aire.pdf');
       });
-    });
+    };
   };
 
   const downloadCSV = () => {
