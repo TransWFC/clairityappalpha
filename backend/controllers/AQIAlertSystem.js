@@ -10,19 +10,18 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopol
   .then(() => console.log("MongoDB connected successfully"))
   .catch((error) => console.error("Error connecting to MongoDB:", error));
 
+// Transporter usando Gmail
 const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
-  port: 465,
-  secure: true,
+  service: "gmail",
   auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
+    user: process.env.GMAIL_USER,
+    pass: process.env.GMAIL_PASS,
   },
 });
 
 const sendEmail = async (email, subject, text) => {
   const info = await transporter.sendMail({
-    from: `"Clarity App 👁️‍🗨️" <${process.env.MAIL_FROM}>`,
+    from: `"Clarity App 👁️‍🗨️" <${process.env.GMAIL_USER}>`,
     to: email,
     subject,
     text,
@@ -37,11 +36,11 @@ const checkAQIAndAlertUsers = async () => {
 
     if (!latestSensor) return console.log("No sensor data found.");
 
-    const { AQI } = latestSensor;
+    const { AQI, alertSent } = latestSensor;
 
-    const UNHEALTHY_AQI = 10; // Ajusta según lo que consideres como "no saludable"
+    const UNHEALTHY_AQI = 10; // Límite AQI
 
-    if (AQI > UNHEALTHY_AQI) {
+    if (AQI > UNHEALTHY_AQI && !alertSent) {
       console.log(`AQI demasiado alto (${AQI}). Enviando alertas...`);
 
       const alertUsers = await User.find({ alerts: true });
@@ -58,9 +57,16 @@ const checkAQIAndAlertUsers = async () => {
         )
       );
 
+      // Marcar el registro como ya alertado
+      latestSensor.alertSent = true;
+      await latestSensor.save();
+
+    } else if (AQI > UNHEALTHY_AQI && alertSent) {
+      console.log(`AQI sigue alto (${AQI}), pero alerta ya enviada para este registro.`);
     } else {
       console.log(`AQI está en niveles seguros (${AQI}). No se enviaron alertas.`);
     }
+
   } catch (error) {
     console.error("Error al verificar AQI y enviar alertas:", error);
   }

@@ -14,6 +14,7 @@
     CO: Number,
     AQI: Number,
     timestamp: { type: Date, default: Date.now },
+    alertSent: { type: Boolean, default: false }, 
   });
 
   module.exports = mongoose.model("SensorData", SensorDataSchema);
