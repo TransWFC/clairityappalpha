@@ -37,7 +37,7 @@ const sendEmail = async (email, subject, text) => {
 
 const checkAQIAndAlertUsers = async () => {
   try {
-    const latestSensor = await SensorData.findOne().sort({ createdAt: -1 });
+    const latestSensor = await SensorData.findOne().sort({ timestamp: -1 });
 
     if (!latestSensor) return console.log("No sensor data found.");
 
