@@ -39,7 +39,7 @@ const checkAQIAndAlertUsers = async () => {
 
     const { AQI } = latestSensor;
 
-    const UNHEALTHY_AQI = 100; // Ajusta según lo que consideres como "no saludable"
+    const UNHEALTHY_AQI = 10; // Ajusta según lo que consideres como "no saludable"
 
     if (AQI > UNHEALTHY_AQI) {
       console.log(`AQI demasiado alto (${AQI}). Enviando alertas...`);
