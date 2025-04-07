@@ -8,14 +8,32 @@ import logo from "../resources/CLAIRITYWHITE.png";
 
 const WeeklyAirQualityChart = () => {
   const [historicalData, setHistoricalData] = useState([]);
+  const [noDataMessage, setNoDataMessage] = useState("");
   const chartRef = useRef(null);
   const contentRef = useRef(null);
 
   useEffect(() => {
     const fetchHistoricalData = async () => {
       try {
+        setNoDataMessage(""); // Clear any previous message
         const response = await fetch("/api/sensors/history?filter=week");
+        
+        if (!response.ok) {
+          if (response.status === 404) {
+            setNoDataMessage("No hay datos disponibles para el período mensual. Por favor, intente más tarde cuando haya más registros.");
+            setHistoricalData([]);
+            return;
+          }
+          throw new Error(`HTTP error ${response.status}`);
+        }
+        
         const data = await response.json();
+
+        if (data.length === 0) {
+          setNoDataMessage("No hay registros disponibles para el período mensual. Por favor, intente más tarde cuando haya más registros.");
+          setHistoricalData([]);
+          return;
+        }
 
         const groupedData = data.reduce((acc, entry) => {
           const date = new Date(entry.timestamp);
@@ -36,9 +54,16 @@ const WeeklyAirQualityChart = () => {
           }))
           .slice(-4);
 
+        if (averagedData.length === 0) {
+          setNoDataMessage("No hay suficientes datos para mostrar el promedio mensual. Por favor, intente más tarde.");
+          setHistoricalData([]);
+          return;
+        }
+
         setHistoricalData(averagedData);
       } catch (error) {
         console.error("Error fetching historical data:", error);
+        setNoDataMessage("Error al cargar datos. Por favor, intente más tarde.");
       }
     };
     
@@ -70,6 +95,11 @@ const WeeklyAirQualityChart = () => {
   };
 
   const downloadPDF = () => {
+    if (historicalData.length === 0) {
+      alert("No hay datos disponibles para generar el PDF.");
+      return;
+    }
+    
     const pdf = new jsPDF('landscape', 'mm', 'a4');
     const pageWidth = pdf.internal.pageSize.getWidth();
     const pageHeight = pdf.internal.pageSize.getHeight();
@@ -145,6 +175,11 @@ const WeeklyAirQualityChart = () => {
   };
 
   const downloadCSV = () => {
+    if (historicalData.length === 0) {
+      alert("No hay datos disponibles para descargar el CSV.");
+      return;
+    }
+    
     // Create a more detailed CSV with headers and metadata
     const today = new Date().toLocaleDateString();
     const monthName = new Date().toLocaleString('es-ES', { month: 'long' });
@@ -179,7 +214,11 @@ const WeeklyAirQualityChart = () => {
               src={pdfIcon}
               alt="Descargar PDF"
               onClick={downloadPDF}
-              style={{ width: "40px", cursor: "pointer" }}
+              style={{ 
+                width: "40px", 
+                cursor: historicalData.length > 0 ? "pointer" : "not-allowed", 
+                opacity: historicalData.length > 0 ? 1 : 0.5 
+              }}
             />
             <span className="ms-2" style={{ fontSize: "1.1rem" }}>Descargar Reporte (PDF)</span>
           </div>
@@ -190,22 +229,44 @@ const WeeklyAirQualityChart = () => {
               src={csvIcon}
               alt="Descargar CSV"
               onClick={downloadCSV}
-              style={{ width: "40px", cursor: "pointer" }}
+              style={{ 
+                width: "40px", 
+                cursor: historicalData.length > 0 ? "pointer" : "not-allowed", 
+                opacity: historicalData.length > 0 ? 1 : 0.5 
+              }}
             />
             <span className="ms-2" style={{ fontSize: "1.1rem" }}>Descargar Datos (CSV)</span>
           </div>
         </div>
 
         <div ref={chartRef}>
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={historicalData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="timestamp" />
-              <YAxis label={{ value: "AQI", angle: -90, position: "insideLeft" }} />
-              <Tooltip />
-              <Line type="monotone" dataKey="AQI" stroke="#40C8FF" strokeWidth={2} dot={{ r: 4 }} />
-            </LineChart>
-          </ResponsiveContainer>
+          {noDataMessage ? (
+            <div className="d-flex justify-content-center align-items-center" style={{ height: '300px' }}>
+              <div className="text-center">
+                <div className="alert alert-warning">
+                  <i className="bi bi-exclamation-triangle me-2"></i>
+                  {noDataMessage}
+                </div>
+                <p>Para ver los datos recientes, consulte la gráfica de evolución de calidad del aire.</p>
+                <button 
+                  className="btn btn-primary"
+                  onClick={() => window.location.href = "/dashboard"}
+                >
+                  Ir al Panel Principal
+                </button>
+              </div>
+            </div>
+          ) : (
+            <ResponsiveContainer width="100%" height={300}>
+              <LineChart data={historicalData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="timestamp" />
+                <YAxis label={{ value: "AQI", angle: -90, position: "insideLeft" }} />
+                <Tooltip />
+                <Line type="monotone" dataKey="AQI" stroke="#40C8FF" strokeWidth={2} dot={{ r: 4 }} />
+              </LineChart>
+            </ResponsiveContainer>
+          )}
         </div>
       </div>
     </div>
