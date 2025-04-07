@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useNavigate, Link } from "react-router-dom";
 import { Card, Container, Row, Col, Button, Modal } from "react-bootstrap";
 import { BsCloud, BsSun, BsBell, BsFlag, BsPlus, BsLock } from "react-icons/bs";
 import moment from "moment-timezone";
@@ -8,6 +9,7 @@ import SensorMap from "../components/GoogleMap";
 import "../Estilos/ClairityDashboard.css";
 
 const Visitor = () => {
+    const navigate = useNavigate();
   const [sensorData, setSensorData] = useState(null);
   const [currentTime, setCurrentTime] = useState(moment().tz("America/Mexico_City").format("HH:mm"));
   const [showLoginModal, setShowLoginModal] = useState(false);
@@ -20,7 +22,7 @@ const Visitor = () => {
         navigate("/dashboard");
       }
     }, [navigate]);
-    
+
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentTime(moment().tz("America/Mexico_City").format("HH:mm"));
