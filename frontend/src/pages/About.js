@@ -7,7 +7,7 @@ const About = () => {
   return (
     <>
       {/* Navbar */}
-      <NavbarComponent handleLogout={() => console.log("Cerrar sesión")} />
+      <GuestnavbarComponent />
 
       <div className="container py-5" style={{ marginTop: '70px' }}>
         <div className="about-content">
