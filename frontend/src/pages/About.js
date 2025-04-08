@@ -2,6 +2,8 @@ import React from 'react';
 import { MapPin, Users, Globe } from 'react-feather'; // Iconos
 import NavbarComponent from "../components/NavbarComponent"; // Asegúrate de que la ruta es correcta
 import Img from '../resources/CLAIRITYBLACK.png'; // Asegúrate de que la ruta sea correcta
+import GuestNavbar from "../components/GuestNavbar";
+
 
 const About = () => {
   return (
