@@ -7,7 +7,7 @@ const About = () => {
   return (
     <>
       {/* Navbar */}
-      <GuestnavbarComponent />
+      <GuestNavbar />
 
       <div className="container py-5" style={{ marginTop: '70px' }}>
         <div className="about-content">
