@@ -9,10 +9,6 @@ import { useNavigate } from 'react-router-dom';
 const PrivacyTerms = () => {
       const navigate = useNavigate();
      const [isAuthenticated, setIsAuthenticated] = useState(false);
-        const [userType, setUserType] = useState(null);
-        const [userId, setUserId] = useState(null);
-        const [alertsEnabled, setAlertsEnabled] = useState(false);
-        const [name, setName] = useState("");
 
        useEffect(() => {
          const token = localStorage.getItem("token");
@@ -21,10 +17,6 @@ const PrivacyTerms = () => {
          if (!token) {
               setIsAuthenticated(false);
          } else {
-           if (user) setUserType(user.type);
-           setUserId(user._id);
-           setAlertsEnabled(user.alerts);
-           setName(user.name);
            setIsAuthenticated(true);
          }
        }, [navigate]);

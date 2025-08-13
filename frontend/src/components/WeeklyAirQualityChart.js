@@ -16,7 +16,7 @@ const WeeklyAirQualityChart = () => {
     const fetchHistoricalData = async () => {
       try {
         setNoDataMessage(""); // Clear any previous message
-        const response = await fetch("/api/sensors/history?filter=week");
+        const response = await fetch("http://localhost:5000/api/sensors/history?filter=week");
         
         if (!response.ok) {
           if (response.status === 404) {

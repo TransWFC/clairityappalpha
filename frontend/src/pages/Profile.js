@@ -6,7 +6,6 @@ import {
 } from 'react-icons/bs';
 import LayoutWithSidebar from "../components/LayoutWithSidebar";
 import Footer from "../components/footer";
-import "../Estilos/Profile.css"; // <-- NEW
 
 const Profile = () => {
   const [user, setUser] = useState(null);
@@ -25,7 +24,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await fetch('/api/auth/me', {
+        const response = await fetch('http://localhost:5000/api/auth/me', {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         });
         const data = await response.json();
@@ -56,7 +55,7 @@ const Profile = () => {
   const handleSendVerificationCode = async () => {
     setLoading(true);
     try {
-      const response = await fetch('/api/auth/send-verification-code', {
+      const response = await fetch('http://localhost:5000/api/auth/send-verification-code', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -91,7 +90,7 @@ const Profile = () => {
         requestBody.verificationCode = verificationCode;
       }
 
-      const response = await fetch('/api/auth/profile', {
+      const response = await fetch('http://localhost:5000/api/auth/profile', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
