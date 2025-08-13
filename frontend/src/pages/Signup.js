@@ -52,7 +52,7 @@ const SignupPage = () => {
         return;
       }
       try {
-        const response = await fetch("http://localhost:5000/api/auth/send-verification-code", {
+        const response = await fetch("/api/auth/send-verification-code", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email: formData.email })
@@ -73,7 +73,7 @@ const SignupPage = () => {
       }
     } else {
       try {
-        const response = await fetch("http://localhost:5000/api/auth/signup", {
+        const response = await fetch("/api/auth/signup", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -101,7 +101,7 @@ const SignupPage = () => {
   const handleResendVerificationCode = async () => {
     if (countdown > 0) return;
     try {
-      const response = await fetch("http://localhost:5000/api/auth/send-verification-code", {
+      const response = await fetch("/api/auth/send-verification-code", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: formData.email })

@@ -14,7 +14,7 @@ const NavbarComponent = ({ handleLogout, toggleSidebar }) => {
 
   const handleLogoutClick = async () => {
     try {
-      await fetch("http://localhost:5000/api/auth/logout", {
+      await fetch("/api/auth/logout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token: localStorage.getItem("token") }),

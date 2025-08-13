@@ -42,7 +42,7 @@ const LoginPage = () => {
     setError("");
     setLoading(true);
     try {
-      const response = await fetch("http://localhost:5000/api/auth/login", {
+      const response = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -68,7 +68,7 @@ const LoginPage = () => {
 
   const handleSendVerificationCode = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/auth/send-verification-code", {
+      const response = await fetch("/api/auth/send-verification-code", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
@@ -87,7 +87,7 @@ const LoginPage = () => {
     setError("");
     setLoading(true);
     try {
-      const response = await fetch("http://localhost:5000/api/auth/reset-password", {
+      const response = await fetch("/api/auth/reset-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, verificationCode, newPassword }),

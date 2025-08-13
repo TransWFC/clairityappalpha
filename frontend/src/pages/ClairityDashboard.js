@@ -55,7 +55,7 @@ const ClarityDashboard = () => {
   useEffect(() => {
     const fetchHourlyAQIData = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/history?filter=hour");
+        const response = await fetch("/api/history?filter=hour");
         const data = await response.json();
 
         if (!Array.isArray(data)) return;
@@ -89,7 +89,7 @@ const ClarityDashboard = () => {
   const fetchRecommendations = async (currentAQI) => {
     try {
       console.log('Fetching recommendations for AQI:', currentAQI);
-      const response = await fetch(`http://localhost:5000/api/recommendations?aqi=${currentAQI}`);
+      const response = await fetch(`/api/recommendations?aqi=${currentAQI}`);
       const data = await response.json();
       console.log('Recommendations response:', data);
       setRecommendations(data.recommendations || []);
@@ -102,7 +102,7 @@ const ClarityDashboard = () => {
   const fetchGroups = async (currentAQI) => {
     try {
       console.log('Fetching groups for AQI:', currentAQI);
-      const response = await fetch(`http://localhost:5000/api/groups?aqi=${currentAQI}`);
+      const response = await fetch(`/api/groups?aqi=${currentAQI}`);
       const data = await response.json();
       console.log('Groups response:', data);
       setGroups(data.groups || []);
@@ -119,7 +119,7 @@ const ClarityDashboard = () => {
 
     try {
       // Try to get real-time data first
-      const realtimeResponse = await fetch("http://localhost:5000/api/sensors/latest");
+      const realtimeResponse = await fetch("/api/sensors/latest");
       if (realtimeResponse.ok) {
         realtimeData = await realtimeResponse.json();
 
@@ -141,7 +141,7 @@ const ClarityDashboard = () => {
 
     try {
       // Fall back to latest database records
-      const dbResponse = await fetch("http://localhost:5000/api/sensors/get");
+      const dbResponse = await fetch("/api/sensors/get");
       if (!dbResponse.ok) throw new Error("Error en la respuesta del servidor");
       const dbData = await dbResponse.json();
 
@@ -226,7 +226,7 @@ const ClarityDashboard = () => {
   const toggleAlerts = async () => {
     try {
       const newValue = !alertsEnabled;
-      const res = await fetch(`http://localhost:5000/api/users/${userId}/toggle-alerts`, {
+      const res = await fetch(`/api/users/${userId}/toggle-alerts`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

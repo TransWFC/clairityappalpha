@@ -81,7 +81,7 @@ const AQIDecompositionChart = () => {
   const innerRadius = Math.max(30, Math.floor(outerRadius * 0.55));
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/sensors/devices")
+    fetch("/api/sensors/devices")
       .then((res) => res.json())
       .then((deviceIds) => {
         setDevices(deviceIds.map(id => ({ _id: id, name: id })));
@@ -94,7 +94,7 @@ const AQIDecompositionChart = () => {
       try {
         setLoading(true);
         setNoDataMessage("");
-        const endpoint = "http://localhost:5000/api/sensors/latest";
+        const endpoint = "/api/sensors/latest";
         const res = await fetch(endpoint);
         if (res.status === 404) {
           setData([]);

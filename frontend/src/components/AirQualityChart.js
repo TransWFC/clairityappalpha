@@ -5,6 +5,7 @@ import jsPDF from "jspdf";
 import pdfIcon from "../resources/pdf.png";
 import csvIcon from "../resources/csv.png";
 
+
 const FILTER_OPTIONS = [
   { value: "hour", label: "Última hora - Todos los registros" },
   { value: "day", label: "Últimas 24 horas - Promedio por hora" },
@@ -51,7 +52,7 @@ const AirQualityChart = () => {
   const chartMargin = { top: 20, right: 16, left: isXS ? 10 : 20, bottom: xAngle ? 70 : 30 };
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/sensors/devices")
+    fetch("/api/sensors/devices")
       .then((res) => res.json())
       .then((deviceIds) => {
         setDevices(deviceIds.map(id => ({ _id: id, name: id })));
@@ -65,7 +66,7 @@ const AirQualityChart = () => {
         setLoading(true);
         setNoDataMessage("");
         
-        const url = new URL("http://localhost:5000/api/sensors/history");
+        const url = new URL("/api/sensors/history");
         url.searchParams.append("filter", filter);
         if (selectedDevice !== "all") {
           url.searchParams.append("device", selectedDevice);

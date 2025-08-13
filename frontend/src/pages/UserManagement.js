@@ -46,7 +46,7 @@ const UserManagement = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/users", {
+      const response = await axios.get("/api/users", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setUsers(response.data);
@@ -65,7 +65,7 @@ const UserManagement = () => {
 
   const validateEmail = async (email) => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/users?email=${email}`, {
+      const res = await axios.get(`/api/users?email=${email}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       return res.data.exists;
@@ -85,7 +85,7 @@ const UserManagement = () => {
     setPasswordError("");
 
     try {
-      await axios.post("http://localhost:5000/api/users", newUser, {
+      await axios.post("/api/users", newUser, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setTemporaryMessage("Usuario creado exitosamente.");
@@ -135,7 +135,7 @@ const UserManagement = () => {
     };
 
     try {
-      await axios.put(`http://localhost:5000/api/users/${selectedUser._id}`, payload, {
+      await axios.put(`/api/users/${selectedUser._id}`, payload, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setTemporaryMessage("Usuario actualizado correctamente");
@@ -149,7 +149,7 @@ const UserManagement = () => {
 
   const deleteUser = async (userId) => {
     try {
-      await axios.delete(`http://localhost:5000/api/users/${userId}`, {
+      await axios.delete(`/api/users/${userId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setTemporaryMessage("Usuario eliminado exitosamente");
@@ -162,7 +162,7 @@ const UserManagement = () => {
   const deactivateUser = async (userId) => {
     try {
       await axios.put(
-        `http://localhost:5000/api/users/${userId}/deactivate`,
+        `/api/users/${userId}/deactivate`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -176,7 +176,7 @@ const UserManagement = () => {
   const activateUser = async (userId) => {
     try {
       await axios.put(
-        `http://localhost:5000/api/users/${userId}/activate`,
+        `/api/users/${userId}/activate`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );

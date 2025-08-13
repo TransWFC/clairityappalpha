@@ -26,7 +26,7 @@ const transporter = nodemailer.createTransport({
 // Traer los datos de calidad de aire
 const fetchAQIData = async () => {
   try {
-    const response = await axios.get('http://13.59.161.219:8000http://localhost:5000/api/calidad-aire');
+    const response = await axios.get('http://13.59.161.219:8000/api/calidad-aire');
     return response.data;
   } catch (error) {
     console.error('Error fetching AQI data:', error);

@@ -40,7 +40,7 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 // Optional: Add debug middleware only in development
 if (process.env.NODE_ENV === 'development') {
   app.use((req, res, next) => {
-    if (req.url.includes('http://localhost:5000/api/users')) {
+    if (req.url.includes('/api/users')) {
       console.log(`🔍 ${req.method} ${req.url}`, req.body ? 'with body' : 'no body');
     }
     next();
@@ -60,14 +60,14 @@ app.use((err, req, res, next) => {
 });
 
 // API Routes
-app.use("http://localhost:5000/api/auth", authRoutes);
-app.use("http://localhost:5000/api/sensors", sensorRoutes);
-app.use("http://localhost:5000/api/recommendations", recommendationsRoute);
-app.use("http://localhost:5000/api/groups", groupsRoute);
-app.use("http://localhost:5000/api/users", userRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/sensors", sensorRoutes);
+app.use("/api/recommendations", recommendationsRoute);
+app.use("/api/groups", groupsRoute);
+app.use("/api/users", userRoutes);
 
 // Health check endpoint
-app.get('http://localhost:5000/api/health', (req, res) => {
+app.get('/api/health', (req, res) => {
   res.json({ 
     status: 'ok', 
     timestamp: new Date().toISOString(),
@@ -120,7 +120,7 @@ app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
   console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
   if (process.env.NODE_ENV === 'development') {
-    console.log(`🩺 Health check: http://localhost:${PORT}http://localhost:5000/api/health`);
+    console.log(`🩺 Health check: http://localhost:${PORT}/api/health`);
   }
 });
 

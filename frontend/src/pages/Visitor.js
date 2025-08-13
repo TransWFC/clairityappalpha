@@ -64,7 +64,7 @@ const Visitor = () => {
   const fetchLive = async () => {
     try {
       setError("");
-      const res = await fetch("http://localhost:5000/api/sensors/latest");
+      const res = await fetch("/api/sensors/latest");
       if (!res.ok) throw new Error("No se pudo consultar el endpoint en vivo");
       const data = await res.json();
 

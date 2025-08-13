@@ -75,7 +75,7 @@ const SensorMap = () => {
   };
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/sensors/devices")
+    fetch("/api/sensors/devices")
       .then((res) => res.json())
       .then((deviceIds) => {
         setDevices(deviceIds.map((id) => ({ _id: id, name: id })));
@@ -91,7 +91,7 @@ const SensorMap = () => {
 
         const promises = devices.map(async (device) => {
           try {
-            const res = await fetch(`http://localhost:5000/api/sensors/latest?device=${device._id}`);
+            const res = await fetch(`/api/sensors/latest?device=${device._id}`);
             if (res.ok) {
               const json = await res.json();
               return { ...json, device_id: device._id };

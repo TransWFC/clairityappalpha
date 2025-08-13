@@ -94,7 +94,7 @@ const CorrelationHeatmap = () => {
 
   // Fetch devices on mount
   useEffect(() => {
-    fetch("http://localhost:5000/api/sensors/devices")
+    fetch("/api/sensors/devices")
       .then(res => res.json())
       .then(deviceIds => setDevices(deviceIds.map(id => ({ _id: id, name: id }))))
       .catch(err => console.error("Device fetch error", err));
@@ -107,7 +107,7 @@ const CorrelationHeatmap = () => {
         setLoading(true);
         setNoDataMessage("");
         
-        const res = await fetch("http://localhost:5000/api/sensors/get");
+        const res = await fetch("/api/sensors/get");
         if (!res.ok) throw new Error(`Error ${res.status}: No se pudieron obtener datos`);
         
         const rawData = await res.json();
