@@ -1,0 +1,495 @@
+/* Brand + neutral tokens */
+:root {
+  --brand-start: #667eea;
+  --brand-end: #764ba2;
+  --ink: #1a1d29;
+  --muted: #5b6375;
+  --muted-2: #6c757d;
+  --primary: #2f6fe4;
+  --info: #0ea5b7;
+  --success: #1c7c3c;
+  --danger: #a31224;
+  --surface: #ffffff;
+  --line: rgba(16,24,40,0.08);
+  --ring: rgba(102,126,234,0.35);
+}
+
+/* Page title */
+.device-title {
+  font-size: clamp(1.4rem, 1rem + 1.6vw, 2.6rem);
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, #1f2430 0%, #4a5160 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Text colors (higher contrast than bootstrap's default muted) */
+.dm-text-title { color: var(--ink); }
+.dm-text-title-lg { 
+  color: var(--ink); 
+  font-size: clamp(1.4rem, 1rem + 1.4vw, 2.2rem); 
+}
+.dm-text-subtitle { 
+  color: var(--ink); 
+  font-size: clamp(1rem, 0.9rem + 0.3vw, 1.2rem); 
+}
+.dm-text-subtle { color: var(--muted); }
+.dm-text-primary { color: var(--primary); }
+.dm-text-info { color: var(--info); }
+.dm-text-success { color: var(--success); }
+.dm-text-danger { color: var(--danger); }
+
+/* Icons with ensured contrast */
+.dm-icon-primary { color: var(--primary); }
+.dm-icon-info { color: var(--info); }
+.dm-icon-success { color: var(--success); }
+.dm-icon-danger { color: var(--danger); }
+.dm-icon-warning { color: #b45700; }
+.dm-icon-muted { color: var(--muted-2); }
+
+/* Soft surfaces used inside cards */
+.dm-surface {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 12px 14px;
+  box-shadow: 0 1px 0 rgba(16,24,40,0.02) inset;
+}
+
+/* Responsive surface adjustments */
+@media (max-width: 575.98px) {
+  .dm-surface {
+    padding: 10px 12px;
+    border-radius: 12px;
+  }
+}
+
+/* Chips and soft icon holders */
+.dm-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: #fff;
+  box-shadow: 0 1px 0 rgba(16,24,40,0.04);
+}
+
+@media (max-width: 575.98px) {
+  .dm-chip {
+    padding: 6px;
+    border-radius: 10px;
+  }
+}
+
+.dm-chip--soft {
+  background: #f6f8ff;
+}
+.dm-chip--brand {
+  background: linear-gradient(135deg, rgba(102,126,234,.12), rgba(118,75,162,.12));
+}
+.dm-chip--success {
+  background: rgba(28,124,60,.1);
+  color: var(--success);
+  border-color: rgba(28,124,60,.25);
+}
+.dm-chip--danger {
+  background: rgba(163,18,36,.1);
+  color: var(--danger);
+  border-color: rgba(163,18,36,.25);
+}
+.dm-chip--info {
+  background: rgba(14,165,183,.1);
+  color: var(--info);
+  border-color: rgba(14,165,183,.25);
+}
+
+/* Badges with consistent contrast */
+.dm-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: #fff;
+  font-weight: 700;
+  font-size: .8rem;
+  color: var(--ink);
+}
+
+@media (max-width: 575.98px) {
+  .dm-badge {
+    padding: 4px 8px;
+    font-size: 0.75rem;
+  }
+}
+
+.dm-badge--pill { padding: 4px 10px; }
+.dm-badge--success {
+  color: var(--success);
+  border-color: rgba(28,124,60,.25);
+  background: rgba(28,124,60,.08);
+}
+.dm-badge--danger {
+  color: var(--danger);
+  border-color: rgba(163,18,36,.25);
+  background: rgba(163,18,36,.08);
+}
+
+/* Buttons */
+.dm-btn-outline {
+  border: 2px solid rgba(102,126,234,.3) !important;
+  border-radius: 12px !important;
+  font-weight: 600 !important;
+  padding: 10px 18px !important;
+}
+
+@media (max-width: 575.98px) {
+  .dm-btn-outline {
+    padding: 8px 14px !important;
+    font-size: 0.875rem !important;
+  }
+}
+
+.dm-btn-outline:focus-visible {
+  box-shadow: 0 0 0 4px var(--ring);
+}
+
+/* Toggle buttons group */
+.dm-toggle {
+  background: #f7f9ff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 4px;
+}
+
+@media (max-width: 575.98px) {
+  .dm-toggle {
+    border-radius: 12px;
+    padding: 3px;
+  }
+}
+
+.dm-toggle__btn {
+  border: none !important;
+  border-radius: 10px !important;
+  padding: 10px 14px !important;
+  font-weight: 600 !important;
+}
+
+@media (max-width: 575.98px) {
+  .dm-toggle__btn {
+    padding: 8px 12px !important;
+  }
+}
+
+/* Controls: search + select */
+.dm-search {
+  width: min(100%, 360px);
+  min-width: 280px;
+}
+
+@media (max-width: 575.98px) {
+  .dm-search {
+    width: 100%;
+    min-width: auto;
+  }
+}
+
+.dm-search__prefix {
+  background: linear-gradient(135deg, #f8f9fa 0%, #eef1f5 100%) !important;
+  border: 2px solid #e9ecef !important;
+  border-right: none !important;
+  border-radius: 16px 0 0 16px !important;
+}
+
+@media (max-width: 575.98px) {
+  .dm-search__prefix {
+    border-radius: 12px 0 0 12px !important;
+  }
+}
+
+.dm-search__input {
+  border: 2px solid #e9ecef !important;
+  border-left: none !important;
+  border-radius: 0 16px 16px 0 !important;
+  font-size: .95rem !important;
+  padding: 12px 14px !important;
+}
+
+@media (max-width: 575.98px) {
+  .dm-search__input {
+    border-radius: 0 12px 12px 0 !important;
+    padding: 10px 12px !important;
+    font-size: 0.9rem !important;
+  }
+}
+
+.dm-select {
+  border-radius: 16px !important;
+  border: 2px solid #e9ecef !important;
+  font-size: .95rem !important;
+  padding: 12px 14px !important;
+  width: min(100%, 220px);
+  min-width: 180px;
+}
+
+@media (max-width: 575.98px) {
+  .dm-select {
+    border-radius: 12px !important;
+    padding: 10px 12px !important;
+    font-size: 0.9rem !important;
+    width: 100%;
+    min-width: auto;
+  }
+}
+
+/* Responsive table */
+.dm-tablecard { 
+  overflow: hidden; 
+}
+
+.dm-tablewrap { 
+  max-height: 650px; 
+  overflow: auto;
+}
+
+@media (max-width: 991.98px) {
+  .dm-tablewrap {
+    max-height: 500px;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .dm-tablewrap {
+    max-height: 400px;
+  }
+}
+
+.dm-tablehead {
+  background: linear-gradient(135deg, var(--brand-start), var(--brand-end));
+  color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.dm-row {
+  transition: background-color .2s ease, transform .2s ease;
+  border-bottom: 1px solid rgba(0,0,0,.05);
+}
+
+@media (min-width: 768px) {
+  .dm-row:hover { 
+    background-color: rgba(102,126,234,.06); 
+    transform: scale(1.002); 
+  }
+}
+
+/* Disable row scale on small to avoid horizontal scroll jitter */
+@media (max-width: 767.98px) {
+  .dm-row:hover { 
+    transform: none; 
+    background-color: rgba(102,126,234,.04);
+  }
+}
+
+/* Hover lift only on >= md */
+@media (max-width: 767.98px) {
+  .device-card-hover { 
+    transition: box-shadow .25s ease !important; 
+  }
+}
+
+/* Stats tiles: ensure responsive behavior */
+.dm-stats > [class*="col-"] { 
+  min-width: 200px; 
+}
+
+@media (max-width: 575.98px) {
+  .dm-stats > [class*="col-"] { 
+    min-width: auto; 
+  }
+}
+
+/* Surfaces that must keep contrast on white cards */
+.dm-contrast-surface { 
+  border: 1px solid rgba(0,0,0,.06); 
+}
+
+/* Switch slightly larger touch target */
+.dm-switch input[type="checkbox"] { 
+  transform: scale(1.1); 
+}
+
+/* Grid container adjustments */
+.dm-grid .card { 
+  height: 100%; 
+}
+
+/* Ensure consistent card heights in grid view */
+@media (min-width: 576px) {
+  .dm-grid .card {
+    min-height: 320px;
+  }
+}
+
+@media (min-width: 992px) {
+  .dm-grid .card {
+    min-height: 340px;
+  }
+}
+
+/* Icons inside chip with better readability over soft backgrounds */
+.dm-chip .dm-icon-primary,
+.dm-chip .dm-icon-info,
+.dm-chip .dm-icon-muted { 
+  filter: none; 
+}
+
+/* Responsive utilities */
+.dm-controls {
+  position: sticky;
+  top: 80px;
+  z-index: 10;
+}
+
+@media (max-width: 991.98px) {
+  .dm-controls {
+    position: relative;
+    top: auto;
+  }
+}
+
+/* --- Fix controls on large screens --- */
+@media (min-width: 992px) {
+  /* Disable sticky so it won't cover results */
+  .dm-controls {
+    position: static !important;
+    top: auto !important;
+    z-index: 1 !important;
+    margin-top: .5rem !important; /* tighten spacing under the 4 cards */
+  }
+
+  /* Reduce gap between the 4 stat cards and the controls */
+  .dm-stats {
+    margin-bottom: 2.5rem !important;
+  }
+}
+
+/* --- Keep sticky only on tablet/phone, with a solid bg so it never overlays content visually --- */
+@media (max-width: 991.98px) {
+  .dm-controls {
+    position: sticky !important;
+    top: 64px !important;    /* adjust to your header height */
+    background: #fff !important;
+    box-shadow: 0 1px 0 rgba(16,24,40,.06);
+    z-index: 10;
+  }
+}
+
+/* Optional: if there’s still a tiny visual gap, nudge it further */
+.dm-controls-wrapper { gap: .75rem; }   /* was 1rem */
+
+
+/* Mobile-specific adjustments */
+@media (max-width: 575.98px) {
+  .device-page {
+    padding-top: 0 !important;
+  }
+  
+  .dm-device-header {
+    padding: 1rem 0 !important;
+  }
+  
+  .dm-stats {
+    margin-bottom: 2rem !important;
+  }
+  
+  .dm-grid .col-12:not(:last-child) {
+    margin-bottom: 1rem;
+  }
+}
+
+/* Table responsive improvements */
+@media (max-width: 767.98px) {
+  .dm-tablewrap table {
+    font-size: 0.875rem;
+  }
+  
+  .dm-tablewrap th,
+  .dm-tablewrap td {
+    padding: 0.75rem 0.5rem !important;
+  }
+  
+  .dm-tablewrap .dm-badge {
+    font-size: 0.7rem;
+    padding: 2px 6px;
+  }
+  
+  .dm-tablewrap .dm-chip {
+    padding: 4px;
+  }
+}
+
+/* Controls responsive layout */
+.dm-controls-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@media (max-width: 767.98px) {
+  .dm-controls-wrapper {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+  
+  .dm-controls-left {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  
+  .dm-controls-right {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+/* Prevent horizontal scroll */
+.dm-container {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+.dm-row-no-gutters {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.dm-row-no-gutters > [class*="col-"] {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* Loading state improvements */
+.dm-loading-spinner {
+  width: 3rem;
+  height: 3rem;
+}
+
+@media (max-width: 575.98px) {
+  .dm-loading-spinner {
+    width: 2rem;
+    height: 2rem;
+  }
+}

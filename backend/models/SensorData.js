@@ -1,0 +1,17 @@
+  const mongoose = require("mongoose");
+
+  const SensorDataSchema = new mongoose.Schema({
+    device_id: { type: String, required: true }, // Unique string identifier
+    location: { type: String, required: true }, // e.g., "uteq"
+    status: { type: String, enum: ["activo", "inactivo"], required: true },
+    temperature: Number,
+    humidity: Number,
+    PM1: Number,
+    PM2: Number,
+    PM10: Number,
+    AQI: Number,
+    timestamp: { type: Date, default: Date.now },
+    alertSent: { type: Boolean, default: false }, 
+  });
+
+  module.exports = mongoose.model("SensorData", SensorDataSchema);

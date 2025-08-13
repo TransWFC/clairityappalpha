@@ -1,0 +1,202 @@
+/* Loginysign.css */
+.auth {
+  /* evita bloquear el scroll */
+  min-height: 100dvh;   /* mejor que 100vh en móvil */
+  overflow: auto;       /* permite scroll si el contenido crece */
+  position: relative;   /* para posicionar el fondo */
+}
+
+.auth__bg {
+  position: fixed;              /* stays put while scrolling */
+  inset: 0;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  z-index: 0; 
+}
+
+/* Opcional: si tenías algo que forzaba el no-scroll */
+html, body {
+  overflow: auto;
+}
+
+/* Soft white scrim + brand tints to keep text readable on light theme */
+.auth__bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(1200px 520px at 10% -10%, rgba(118, 75, 162, 0.10), transparent 55%),
+    radial-gradient(1000px 480px at 90% -8%, rgba(102, 126, 234, 0.10), transparent 50%),
+    linear-gradient(180deg, rgba(255,255,255,0.86) 0%, rgba(255,255,255,0.92) 35%, rgba(255,255,255,0.98) 100%);
+}
+
+/* Make sure content is above the background */
+.auth__card,
+.auth__homebtn {
+  position: relative;
+  z-index: 1;
+}
+
+/* Optional: if you previously set a big background on .auth, you can tone it down.
+   This keeps a clean fallback color in case the image fails to load. */
+.auth.auth--light {
+  background: #fbfcff;
+}
+
+
+/* Light/Clear theme tokens (match Home light theme) */
+:root {
+  --brand-start: #667eea;
+  --brand-end: #764ba2;
+  --bg-0: #ffffff;
+  --bg-1: #f7f9ff;
+  --text: #1a1d29;
+  --muted: #5b6375;
+  --ring: rgba(102, 126, 234, 0.35);
+  --shadow: 0 12px 32px rgba(16, 24, 40, 0.08);
+}
+
+/* Page wrapper */
+.auth {
+  min-height: 100dvh;
+  padding-top: 84px; /* space for fixed navbar */
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(1000px 480px at 10% -10%, rgba(118,75,162,0.08), transparent 55%),
+    radial-gradient(900px 420px at 90% -8%, rgba(102,126,234,0.08), transparent 50%),
+    linear-gradient(180deg, #ffffff 0%, #fbfcff 100%);
+  color: var(--text);
+}
+
+.auth__homebtn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  color: #40C8FF;
+  background-color: #fff;
+  border-radius: 50%;
+  width: 40px; height: 40px;
+  display: grid; place-items: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+  z-index: 10;
+}
+
+/* Card */
+.auth__card {
+  width: min(960px, 92vw);
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+  padding: clamp(20px, 4vw, 40px);
+  display: grid;
+  gap: 16px;
+  justify-items: center;
+}
+
+/* Logo + title */
+.auth__logo {
+  width: clamp(140px, 22vw, 220px);
+  height: auto;
+}
+.auth__title {
+  margin: 4px 0 8px;
+  font-weight: 800;
+  font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2.1rem);
+  letter-spacing: -0.02em;
+}
+
+/* Form */
+.auth__form {
+  width: min(520px, 100%);
+  display: grid;
+  gap: 12px;
+}
+.auth__group { display: grid; }
+.auth__input {
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid rgba(16,24,40,0.12);
+  background: #fff;
+  padding: 12px 14px;
+  font-size: 0.98rem;
+  color: var(--text);
+  transition: box-shadow 120ms ease, border-color 120ms ease;
+}
+.auth__input:focus {
+  outline: none;
+  border-color: transparent;
+  box-shadow: 0 0 0 4px var(--ring);
+}
+
+/* Buttons */
+.auth__btn {
+  border: 0;
+  border-radius: 999px;
+  padding: 0.75rem 1.1rem;
+  font-weight: 700;
+  font-size: 0.98rem;
+  cursor: pointer;
+  transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease, color 120ms ease, border-color 120ms ease;
+}
+.auth__btn:disabled { opacity: 0.7; cursor: not-allowed; }
+
+.auth__btn--primary {
+  color: #fff;
+  background: linear-gradient(135deg, var(--brand-start), var(--brand-end));
+  box-shadow: 0 10px 22px rgba(102, 126, 234, 0.22);
+}
+.auth__btn--primary:hover { transform: translateY(-1px); }
+.auth__btn--primary:active { transform: translateY(0); }
+
+.auth__btn--outline {
+  color: var(--text);
+  background: #ffffff;
+  border: 1.5px solid rgba(102, 126, 234, 0.35);
+  box-shadow: var(--shadow);
+}
+.auth__btn--outline:hover {
+  border-color: transparent;
+  color: #fff;
+  background: linear-gradient(135deg, var(--brand-start), var(--brand-end));
+}
+
+/* Alerts & misc */
+.auth__alert {
+  width: min(520px, 100%);
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-size: 0.95rem;
+}
+.auth__alert--error {
+  background: #ffe7e7;
+  color: #a30000;
+  border: 1px solid #ffb3b3;
+}
+.auth__alert--success {
+  background: #e8f6ff;
+  color: #004d80;
+  border: 1px solid #b6e0ff;
+}
+.auth__spinner { color: var(--muted); font-size: 0.95rem; }
+
+.auth__link {
+  background: transparent;
+  border: none;
+  color: #2f6fe4;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  margin-top: 4px;
+}
+.auth__muted { color: var(--muted); margin: 6px 0 0; }
+.auth__anchor {
+  color: #2f6fe4;
+  text-decoration: underline;
+}
+
+/* Small screens: full width form buttons */
+@media (max-width: 420px) {
+  .auth__btn { width: 100%; text-align: center; }
+}
