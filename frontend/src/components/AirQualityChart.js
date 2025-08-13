@@ -60,51 +60,42 @@ const AirQualityChart = () => {
       .catch((err) => console.error("Device fetch error", err));
   }, []);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        setNoDataMessage("");
-        
-        const url = new URL("/api/sensors/history");
-        url.searchParams.append("filter", filter);
-        if (selectedDevice !== "all") {
-          url.searchParams.append("device", selectedDevice);
-        }
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      setNoDataMessage("");
 
-        const res = await fetch(url);
-        
-        if (res.status === 404) {
-          setData([]);
-          setNoDataMessage("No hay datos disponibles para este período y dispositivo");
-          return;
-        }
-        
-        if (!res.ok) {
-          throw new Error(`Error ${res.status}: No se pudieron obtener datos`);
-        }
-        
-        const result = await res.json();
-        setLastUpdate(result.lastUpdate);
+      // ✅ Construye la URL con querystring, sin usar new URL
+      const params = new URLSearchParams({ filter });
+      if (selectedDevice !== "all") params.append("device", selectedDevice);
 
-        const parsed = processDataWithGaps(result.data, filter);
-        
-        if (parsed.length === 0) {
-          setNoDataMessage("No hay datos disponibles para este filtro y dispositivo");
-        }
-        
-        setData(parsed);
-      } catch (err) {
-        console.error("Error fetching data:", err);
-        setNoDataMessage(`Error al obtener los datos: ${err.message}`);
+      const res = await fetch(`/api/sensors/history?${params.toString()}`);
+      if (res.status === 404) {
         setData([]);
-      } finally {
-        setLoading(false);
+        setNoDataMessage("No hay datos disponibles para este período y dispositivo");
+        return;
       }
-    };
+      if (!res.ok) throw new Error(`Error ${res.status}: No se pudieron obtener datos`);
 
-    fetchData();
-  }, [filter, selectedDevice]);
+      const result = await res.json();
+      setLastUpdate(result.lastUpdate);
+
+      const parsed = processDataWithGaps(result.data, filter);
+      if (parsed.length === 0) setNoDataMessage("No hay datos disponibles para este filtro y dispositivo");
+      setData(parsed);
+    } catch (err) {
+      console.error("Error fetching data:", err);
+      setNoDataMessage(`Error al obtener los datos: ${err.message}`);
+      setData([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchData();
+}, [filter, selectedDevice]);
+
 
   const processDataWithGaps = (rawData, filterType) => {
     if (!rawData || rawData.length === 0) return [];
